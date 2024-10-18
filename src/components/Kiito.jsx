@@ -1,9 +1,9 @@
 // Tuo tarvittavat React-hookit
-import React, { useState, useEffect } from 'react';
-// Tuo tyylitiedosto
+import React, { useState, useEffect, useRef } from 'react';
 import '../index.css'; // styles
+import { FaChevronDown, FaChevronUp, FaTimes } from 'react-icons/fa'; // React ikonit
 
-// Määritellään tietorakenne lentokenttien kiitoteistä
+// Rakenne kiitoradoisssa
 const runwaysData = {
   Hyvinkää: [
     { direction: '04/22', length: 1260, width: 18, surface: 'asfaltti' },
@@ -13,7 +13,7 @@ const runwaysData = {
     { direction: '04/22', length: 1200, width: 20, surface: 'asfaltti' },
     { direction: '09/27', length: 580, width: 8, surface: 'asfaltti' },
   ],
-  // Lisää kiitoteiden tiedot muille lentokentille
+  // Kiitoteiden tietoja muilla kentillä
   Räyskälä: [
     { direction: '08L/26R', length: 800, width: 10, surface: 'asfaltti' },
     { direction: '08R/26L', length: 1020, width: 18, surface: 'asfaltti/sora' },
@@ -60,122 +60,175 @@ const runwaysData = {
   ],
 };
 
-// Komponentti, joka näyttää lentokenttien kiitotiet
 const AirportRunways = () => {
-  // State muuttujat nykyiselle lentokentälle ja kulmalle
   const [currentAirport, setCurrentAirport] = useState('Hyvinkää');
-  const [angle, setAngle] = useState(0); // Liikkuvan lohkon kulma
+  const [angle, setAngle] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null); // Ref valikon ulkopuoliselle klikkaukselle
+  const [timeoutId, setTimeoutId] = useState(null); // Aikakatkaisija valikon sulkemista varten
 
-  // Effect hook, joka päivittää liikkuvan lohkon kulmaa
-  useEffect(() => {
-    // Asetetaan intervalli, joka päivittää kulmaa
-    const interval = setInterval(() => {
-      setAngle((prevAngle) => (prevAngle + 1) % 360); // Kääntää 1 astetta joka 50 ms
-    }, 50);
-    // Palautetaan funktio, joka puhdistaa intervallin
-    return () => clearInterval(interval);
-  }, []); // Tyhjät riippuvuudet, joten effect ajetaan vain kerran
 
-  // Käsitellään seuraava lentokenttä
+  const handleAirportChange = (airport) => {
+    setCurrentAirport(airport);
+    setIsMenuOpen(false);  // Sulje valikko mobiilissa kun lentokenttä valitaan
+  };
+
+  const handleMouseEnter = () => {
+    clearTimeout(timeoutId);
+    setIsHovered(true);
+    setIsMenuOpen(true); // Open menu on hover
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setTimeout(() => {
+      if (!isHovered) {
+        setIsMenuOpen(false); // Sulje valikko vain, jos hiiri ei ole valikossa
+      }
+    }, 200); // Viiveeen säätö
+  };
+  
+  const toggleMenu = () => {
+    if (window.innerWidth <= 768) {
+      setIsMenuOpen(prev => !prev);
+      if (isMenuOpen) {
+        clearTimeout(timeoutId); // Poista aikakatkaisu, jos valikko suljetaan
+      }
+    }
+  }; 
+  
   const handleNext = () => {
-    const airports = Object.keys(runwaysData); // Hanki kaikki lentokenttien nimet
-    const currentIndex = airports.indexOf(currentAirport); // Nykyisen lentokentän indeksi
-    const nextIndex = (currentIndex + 1) % airports.length; // Seuraavan kentän indeksi
-    setCurrentAirport(airports[nextIndex]); // Päivitä nykyinen lentokenttä
+    const airports = Object.keys(runwaysData);
+    const currentIndex = airports.indexOf(currentAirport);
+    const nextIndex = (currentIndex + 1) % airports.length;
+    setCurrentAirport(airports[nextIndex]);
   };
 
-  // Käsitellään edellinen lentokenttä
   const handlePrevious = () => {
-    const airports = Object.keys(runwaysData); // Hanki kaikki lentokenttien nimet
-    const currentIndex = airports.indexOf(currentAirport); // Nykyisen lentokentän indeksi
-    const prevIndex = (currentIndex - 1 + airports.length) % airports.length; // Edellisen kentän indeksi
-    setCurrentAirport(airports[prevIndex]); // Päivitä nykyinen lentokenttä
+    const airports = Object.keys(runwaysData);
+    const currentIndex = airports.indexOf(currentAirport);
+    const prevIndex = (currentIndex - 1 + airports.length) % airports.length;
+    setCurrentAirport(airports[prevIndex]);
   };
 
-  // Funktio, joka renderöi kiitotien SVG:ssä
-  const renderRunway = (runway) => {
-    // Jaetaan kiitotien suunta alkusuuntaan ja loppusuuntaan
-    const [start, end] = runway.direction.split('/').map(dir => {
-      return parseInt(dir.replace(/[LR]/, ''), 10); // Poista L ja R ja muunna kokonaisluvuksi
-    });
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAngle((prevAngle) => (prevAngle + 1) % 360);
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
 
-    // Lasketaan kulmat kiitotien alkupäälle ja loppupäälle
+  // Sulje valikko, jos klikataan ulkopuolelle
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const renderRunway = (runway) => {
+    const [start, end] = runway.direction.split('/').map(dir => parseInt(dir.replace(/[LR]/, ''), 10));
     const startAngle = ((start * 10) / 360) * 2 * Math.PI;
     const endAngle = ((end * 10) / 360) * 2 * Math.PI;
-
-    // Lasketaan alkupään ja loppupään koordinaatit
     const startX = 150 + 120 * Math.cos(startAngle);
     const startY = 150 - 120 * Math.sin(startAngle);
     const endX = 150 + 120 * Math.cos(endAngle);
     const endY = 150 - 120 * Math.sin(endAngle);
 
     return (
-      // Renderöi kiitotie SVG-elementtinä
       <g key={runway.direction}>
         <line
-          x1={startX} // Alkupään x-koordinaatti
-          y1={startY} // Alkupään y-koordinaatti
-          x2={endX}   // Loppupään x-koordinaatti
-          y2={endY}   // Loppupään y-koordinaatti
-          stroke="rgba(128, 128, 128, 0.7)" // Viivan väri
-          strokeWidth="20" // Viivan paksuus
-          strokeLinecap="round" // Viivan päätytyyli
+          x1={startX}
+          y1={startY}
+          x2={endX}
+          y2={endY}
+          stroke="rgba(128, 128, 128, 0.7)"
+          strokeWidth="20"
+          strokeLinecap="round"
         />
       </g>
     );
   };
 
-  // Lasketaan liikkuvan lohkon koordinaatit kulman mukaan
   const x = 150 + 100 * Math.cos((angle * Math.PI) / 180);
   const y = 150 - 100 * Math.sin((angle * Math.PI) / 180);
 
   return (
-    <div className="flex flex-col items-center p-4">
-      {/* Näytetään kiitotiet otsikko */}
-      <h3 className="text-lg font-semibold mb-2">Kiitotiet</h3>
-      {/* Näytetään nykyisen lentokentän nimi ja Posan erikoisuus kun ei muuta keksi miten lisätä viivaa ja välikköö muuttujiin */}
+    <div className="flex flex-col items-center p-4 whitespace-nowrap">
+     <h3 
+    className="text-lg font-semibold mb-2 flex items-center cursor-pointer"
+    onMouseEnter={handleMouseEnter}
+    onMouseLeave={handleMouseLeave}
+    onClick={toggleMenu} // Tämä rivi mahdollistaa valikon avaamisen klikkauksella
+  >
+    Kiitotiet
+    <span className="ml-2 ">
+      {isHovered || isMenuOpen ? <FaChevronUp /> : <FaChevronDown />}
+    </span>
+  </h3>
+
+  <div
+    ref={menuRef}
+    className="relative" // relative että alasvetovalikko avautuu oikein
+  >
+
+       {/* Näytetään nykyisen lentokentän nimi ja Posan erikoisuus kun ei muuta keksi miten lisätä viivaa ja välikköö muuttujiin */}
       <h1 className="text-xl font-bold mb-2 whitespace-nowrap text-center">
         {currentAirport === 'HelsinkiVantaa' ? 'Helsinki-Vantaa' : currentAirport === 'HelsinkiMalmi' ? 'Helsinki Malmi' : currentAirport} Lentokenttä
       </h1>
-      <div className="relative mb-4">
-        {/* Netin mukaan tää on svg eleementti, eli ympyrä periaattessa */}
-        <svg width="300" height="300" className="border rounded-full">
-          <circle cx="150" cy="150" r="120" stroke="pink" strokeWidth="3" fill="none" /*Suurempi ympyrä. Kannattaa varoo jos tähän lisää kommenttei. Ei oikee helppo paikka lisätä mitään.*//> 
-          <circle cx="150" cy="150" r="100" stroke="gray" strokeWidth="1" fill="none"/*Pienempi ympyrä*/ /> 
-          
-          {/* Renderöidään nykyisen lentokentän kiitotiet */}
-          {runwaysData[currentAirport].map((runway) => renderRunway(runway))}
-          
-          {/* Renderöidään liikkuva lohko */}
-          <rect
-            x={x - 10} // Lohkon vasemman yläkulman x-koordinaatti
-            y={y - 10} // Lohkon vasemman yläkulman y-koordinaatti
-            width="20" // Lohkon leveys
-            height="20" // Lohkon korkeus
-            fill="rgba(0, 0, 255, 0.5)" // Lohkon väri
-          />
 
-          {/* Piirretään punaiset viivat, jotka osoittavat pohjoisen ja etelän */}
+        {(isHovered || isMenuOpen) && (
+          <div className="absolute top-[-7px] left-0 mt-0 w-full bg-white border rounded shadow-lg z-10">
+            <div className="flex justify-between items-center p-2 bg-gray-200">
+              <span>Valitse lentokenttä</span>
+              <FaTimes
+    onClick={() => setIsMenuOpen(false)}
+    className="absolute right-2 top-2 cursor-pointer z-50" 
+  />
+            </div>
+            
+            {Object.keys(runwaysData).map((airport) => (
+              <div
+                key={airport}
+                className="p-2 hover:bg-gray-200 cursor-pointer"
+                onClick={() => handleAirportChange(airport)}
+              >
+                {airport}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="relative mb-4">
+        <svg width="300" height="300" className="border rounded-full">
+          <circle cx="150" cy="150" r="120" stroke="pink" strokeWidth="3" fill="none" />
+          <circle cx="150" cy="150" r="100" stroke="gray" strokeWidth="1" fill="none" />
+          {runwaysData[currentAirport].map((runway) => renderRunway(runway))}
+          <rect x={x - 10} y={y - 10} width="20" height="20" fill="rgba(0, 0, 255, 0.5)" />
           <line x1="150" y1="50" x2="150" y2="250" stroke="red" strokeWidth="1" strokeDasharray="4" />
           <line x1="50" y1="150" x2="250" y2="150" stroke="red" strokeWidth="1" strokeDasharray="4" />
-
-          {/* Renderöidään asteikko 0-360° */}
           {[...Array(36)].map((_, i) => (
-            <text
-              key={i}
-              x={150 + 110 * Math.cos((i * 10 * Math.PI) / 180)} // Asteikon x-koordinaatti
-              y={150 - 110 * Math.sin((i * 10 * Math.PI) / 180)} // Asteikon y-koordinaatti
-              fontSize="10" // Fontin koko
-              textAnchor="middle" // Tekstin keskittäminen
-              alignmentBaseline="middle" // Tekstin vertikaalinen keskittymisen asettaminen
+            <text key={i}
+              x={150 + 110 * Math.cos((i * 10 * Math.PI) / 180)}
+              y={150 - 110 * Math.sin((i * 10 * Math.PI) / 180)}
+              fontSize="10"
+              textAnchor="middle"
+              alignmentBaseline="middle"
             >
-              {i * 10 === 0 ? '0\u00B0/360\u00B0' : `${i * 10}\u00B0` /*// Näytetään asteluku. Taas huono paikka kommentteihin. Varokaa jos lisäätte jotain*/ } 
+              {i * 10 === 0 ? '0\u00B0/360\u00B0' : `${i * 10}\u00B0`}
             </text>
           ))}
         </svg>
       </div>
 
-      {/* Navigointipainikkeet */}
       <div className="flex space-x-4 mb-4">
         <button onClick={handlePrevious} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
           Edellinen
@@ -185,11 +238,11 @@ const AirportRunways = () => {
         </button>
       </div>
 
-      {/* Kiitotien yksityiskohtien näyttäminen */}
-      <div className="flex flex-col items-center space-y-2 text-sm">
+      {/* Lentokentän kiitotiet */}
+      <div className="text-sm">
         {runwaysData[currentAirport].map((runway, index) => (
-          <div key={index} className="text-center">
-            <div className="font-bold">Suunta {runway.direction + '\u00B0'}</div>
+          <div key={index} className="text-center mb-2">
+            <div className="font-bold">Suunta {runway.direction}</div>
             <div>Pituus: {runway.length} m, Leveys: {runway.width} m</div>
             <div>Pintamateriaali: {runway.surface}</div>
           </div>
@@ -199,5 +252,4 @@ const AirportRunways = () => {
   );
 };
 
-// PErinteinen exportti
 export default AirportRunways;

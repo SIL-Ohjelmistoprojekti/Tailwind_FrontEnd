@@ -141,7 +141,8 @@ const SaaEnnuste = () => {
       {loading ? (
         <p className="text-lg">Ladataan dataa...</p>
       ) : (
-        <div className={`w-full sm:w-3/4 md:w-2/4 lg:w-[68%] bg-gray-100 p-4 rounded-lg shadow-lg`}>
+        <div className={`w-full sm:w-3/4 md:w-2/4 lg:w-[75%] bg-gray-100 p-4 rounded-lg shadow-lg`}>
+          {/*ylmepi säätää koko valikon leveyttä */}
           {weatherData.length === 0 ? (
             <p className="text-lg">Ei säädataa saatavilla.</p>
           ) : (
