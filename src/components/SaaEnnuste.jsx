@@ -158,8 +158,8 @@ const SaaEnnuste = () => {
                     {infoVisible['mobiili'] && (
                       <div 
                         ref={infoRef} 
-                        className={`absolute left-1/2 transform -translate-x-1/2 mt-1 bg-white border border-gray-300 p-2 rounded shadow-lg z-10`}
-                      >
+                        className={`absolute left-1/2 transform -translate-x-[calc(50%+20px)] mt-1 bg-white border border-gray-300 p-2 rounded shadow-lg z-10`}
+                        >
                         <p>{info['mobiili']}</p>
                         <FaTimes
                           className="absolute top-1 right-1 text-red-500 cursor-pointer"
