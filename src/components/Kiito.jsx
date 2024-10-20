@@ -13,7 +13,6 @@ const runwaysData = {
     { direction: '04/22', length: 1200, width: 20, surface: 'asfaltti' },
     { direction: '09/27', length: 580, width: 8, surface: 'asfaltti' },
   ],
-  // Kiitoteiden tietoja muilla kentillä
   Räyskälä: [
     { direction: '08L/26R', length: 800, width: 10, surface: 'asfaltti' },
     { direction: '08R/26L', length: 1020, width: 18, surface: 'asfaltti/sora' },
@@ -23,6 +22,27 @@ const runwaysData = {
   HelsinkiVantaa: [
     { direction: '04R/22L', length: 4000, width: 60, surface: 'asfaltti' },
     { direction: '04L/22R', length: 3000, width: 45, surface: 'asfaltti' },
+    { direction: '12/30', length: 3600, width: 60, surface: 'asfaltti' },
+  ],
+  Oulu: [
+    { direction: '12/30', length: 3000, width: 45, surface: 'asfaltti' },
+    { direction: '03/21', length: 2500, width: 45, surface: 'asfaltti' },
+    { direction: '15/33', length: 2500, width: 45, surface: 'asfaltti' },
+  ],
+  TamperePirkkala: [
+    { direction: '12/30', length: 2500, width: 45, surface: 'asfaltti' },
+    { direction: '03/21', length: 3200, width: 45, surface: 'asfaltti' },
+    { direction: '15/33', length: 2500, width: 45, surface: 'asfaltti' },
+  ],
+  Rovaniemi: [
+    { direction: '07/25', length: 2500, width: 45, surface: 'asfaltti' },
+    { direction: '01/19', length: 2500, width: 45, surface: 'asfaltti' },
+    { direction: '13/31', length: 2500, width: 45, surface: 'asfaltti' },
+  ],
+  Lappeenranta: [
+    { direction: '15/33', length: 2700, width: 45, surface: 'asfaltti' },
+    { direction: '09/27', length: 1800, width: 30, surface: 'asfaltti' },
+    { direction: '12/30', length: 1200, width: 20, surface: 'asfaltti' },
   ],
   HelsinkiMalmi: [
     { direction: '18/36', length: 1280, width: 30, surface: 'asfaltti (suljettu)' },
@@ -32,19 +52,14 @@ const runwaysData = {
     { direction: '12/30', length: 2999, width: 45, surface: 'asfaltti' },
   ],
   Kokkola: [
-    { direction: '12/30', length: 3000, width: 45, surface: 'asfaltti' },
+    { direction: '01/19', length: 2500, width: 60, surface: 'asfaltti' },
+    { direction: '11/29', length: 700, width: 20, surface: 'asfaltti' },
   ],
   Jyväskylä: [
     { direction: '13/31', length: 2600, width: 45, surface: 'asfaltti' },
   ],
   Seinäjoki: [
     { direction: '13/31', length: 2300, width: 45, surface: 'asfaltti' },
-  ],
-  Rovaniemi: [
-    { direction: '07/25', length: 2500, width: 45, surface: 'asfaltti' },
-  ],
-  Oulu: [
-    { direction: '12/30', length: 3000, width: 45, surface: 'asfaltti' },
   ],
   Lahti: [
     { direction: '08/26', length: 1500, width: 30, surface: 'asfaltti' },
@@ -59,6 +74,7 @@ const runwaysData = {
     { direction: '10/28', length: 1800, width: 30, surface: 'asfaltti' },
   ],
 };
+
 
 const AirportRunways = () => {
   const [currentAirport, setCurrentAirport] = useState('Hyvinkää');
@@ -134,29 +150,31 @@ const AirportRunways = () => {
   }, []);
 
   const renderRunway = (runway) => {
-    const [start, end] = runway.direction.split('/').map(dir => parseInt(dir.replace(/[LR]/, ''), 10));
-    const startAngle = ((start * 10) / 360) * 2 * Math.PI;
-    const endAngle = ((end * 10) / 360) * 2 * Math.PI;
-    const startX = 150 + 120 * Math.cos(startAngle);
-    const startY = 150 - 120 * Math.sin(startAngle);
-    const endX = 150 + 120 * Math.cos(endAngle);
-    const endY = 150 - 120 * Math.sin(endAngle);
-
-    return (
-      <g key={runway.direction}>
+    // Extract the runway directions (e.g., "04/22" becomes [4, 22])
+    const directions = runway.direction.split('/').map(dir => parseInt(dir.replace(/[LR]/, ''), 10));
+  
+    return directions.map((dir, index) => {
+      // Calculate the angle for the runway direction
+      const angle = ((dir * 10) / 360) * 2 * Math.PI;
+  
+      // Calculate the endpoint of the line based on the angle
+      const x = 150 + 120 * Math.cos(angle);  // 150 is the center of the circle, 120 is the radius
+      const y = 150 - 120 * Math.sin(angle);  // Subtracting because y-axis is inverted in SVG
+  
+      return (
         <line
-          x1={startX}
-          y1={startY}
-          x2={endX}
-          y2={endY}
+          key={`${runway.direction}-${index}`}  // Use direction and index as key
+          x1={150} y1={150}  // Start from the center of the circle
+          x2={x} y2={y}  // Draw the line to the calculated endpoint
           stroke="rgba(128, 128, 128, 0.7)"
           strokeWidth="20"
           strokeLinecap="round"
         />
-      </g>
-    );
+      );
+    });
   };
-
+  
+  
   const x = 150 + 100 * Math.cos((angle * Math.PI) / 180);
   const y = 150 - 100 * Math.sin((angle * Math.PI) / 180);
 
