@@ -145,7 +145,7 @@ const SaaEnnuste = () => {
       {loading ? (
         <p className="text-lg">Ladataan dataa...</p>
       ) : (
-        <div className={`w-full sm:w-3/4 md:w-2/4 lg:w-[75%] bg-gray-100 p-4 rounded-lg shadow-lg`}>
+        <div className={`w-full sm:w-3/4 md:w-2/4 lg:w-[100%] bg-gray-100 p-4 rounded-lg shadow-lg`}>
           {/*ylmepi säätää koko valikon leveyttä */}
           {weatherData.length === 0 ? (
             <p className="text-lg">Ei säädataa saatavilla.</p>
@@ -182,17 +182,17 @@ className={`absolute left-1/2 transform -translate-x-[calc(50%+20px)] mt-1 bg-wh
                       <div key={key} className="relative group">
                         <span className="flex items-center whitespace-nowrap">
                           {key === 'weekday' ? (
-                            'Viikonpäivä'
+                            'Week Day'
                           ) : key === 'date' ? (
-                            'Päivämäärä'
+                            'Date'
                           ) : key === 'maxTemp' ? (
                             <>Max <FaThermometerHalf /> (°C)</>
                           ) : key === 'minTemp' ? (
                             <>Min <FaThermometerHalf /> (°C)</>
                           ) : key === 'precipitation' ? (
-                            'Sade (mm)'
+                            'Rain (mm)'
                           ) : key === 'frostProbability' ? (
-                            'Pakkanen(%)'
+                            'Frost(%)'
                           ) : null}
                         </span>
 
@@ -245,7 +245,7 @@ className={`absolute left-1/2 transform -translate-x-[calc(50%+20px)] mt-1 bg-wh
                             {weekData.map((item, index) => (
                               <div key={index} className="flex flex-col">
                                 <div 
-                                  className="cursor-pointer bg-blue-200 p-2 rounded-lg mb-1" 
+                                  className="cursor-pointer bg-blue-200 p- rounded-lg mb-1" 
                                   onClick={() => setExpandedIndex(expandedIndex === index ? null : index)} 
                                 >
                                   {item.weekday} - {item.time} {/* Updated to include weekday */}

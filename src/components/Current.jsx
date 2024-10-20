@@ -65,23 +65,23 @@ const Current = () => {
       <p className="text-lg mb-1 text-left">{formatTime(measuredTime)}</p>
       <div className="flex flex-col gap-4 text-left">
         <div>
-          <p id="temperature" className="p-2 bg-blue-200 rounded-lg text-left">
+          <p id="temperature" className="p-2 bg-blue-200 rounded-lg text-left mb-1">
             <strong>Temperature:</strong> {temperature || "No data"} °C
           </p>
-          <p id="humidity" className="p-2 bg-blue-200 rounded-lg text-left">
+          <p id="humidity" className="p-2 bg-blue-200 rounded-lg text-left mb-1">
             <strong>Humidity:</strong> {humidity || "No data"} %
           </p>
           <p id="pressure" className="p-2 bg-blue-200 rounded-lg text-left whitespace-nowrap">
-            <strong>Barometric Pressure:</strong> {barometric_pressure || "No data"} hPa
+            <strong>Barometric Pressure:</strong> <br/> {barometric_pressure || "No data"} hPa
           </p>
         </div>
 
         <div>
-          <h3 className="text-xl font-semibold mb-1 text-left">Wind</h3>
-          <p id="average_wind_speed" className="p-2 bg-blue-100 rounded-lg text-left">
+          <h3 className="text-xl font-semibold mb-1 text-left ">Wind</h3>
+          <p id="average_wind_speed" className="p-2 bg-blue-100 rounded-lg text-left mb-1">
             <strong>Average Wind Speed:</strong> {average_wind_speed || "No data"} m/s
           </p>
-          <p id="max_wind_speed" className="p-2 bg-blue-100 rounded-lg text-left">
+          <p id="max_wind_speed" className="p-2 bg-blue-100 rounded-lg text-left mb-1">
             <strong>Max Wind Speed:</strong> {max_wind_speed || "No data"} m/s
           </p>
           <p id="wind_direction" className="p-2 bg-blue-100 rounded-lg text-left">
@@ -91,7 +91,7 @@ const Current = () => {
 
         <div>
           <h3 className="text-xl font-semibold mb-1 text-left">Rain</h3>
-          <p id="one_hour_rainfall" className="p-2 bg-blue-100 rounded-lg text-left">
+          <p id="one_hour_rainfall" className="p-2 bg-blue-100 rounded-lg text-left mb-1">
             <strong>One Hour Rainfall:</strong> {one_hour_rainfall || "No data"} mm
           </p>
           <p id="twenty_four_hour_rainfall" className="p-2 bg-blue-100 rounded-lg text-left">
