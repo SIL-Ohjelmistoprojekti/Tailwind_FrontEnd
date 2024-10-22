@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Link } from 'react-scroll';
-import '../index.css'; 
+import React, {useState} from 'react';
+import {Link} from 'react-scroll';
+import '../index.css';
 import './SaaEnnuste';
 import './Kiito';
 import './Current';

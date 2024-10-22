@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react'; 
-import { FaInfoCircle, FaThermometerHalf, FaTimes } from 'react-icons/fa'; 
-import '../index.css'; 
+import React, {useEffect, useRef, useState} from 'react';
+import {FaInfoCircle, FaThermometerHalf, FaTimes} from 'react-icons/fa';
+import '../index.css';
 
 const SaaEnnuste = () => {
   // Tilamuuttujat säilyttävät säädataa ja komponentin tilaa

@@ -1,7 +1,7 @@
 // Tuo tarvittavat React-hookit
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import '../index.css'; // styles
-import { FaChevronDown, FaChevronUp, FaTimes } from 'react-icons/fa'; // React ikonit
+import {FaChevronDown, FaChevronUp, FaTimes} from 'react-icons/fa'; // React ikonit
 
 // Rakenne kiitoradoisssa
 const runwaysData = {

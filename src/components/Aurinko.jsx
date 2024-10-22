@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createRoot } from 'react-dom/client'; // Update this import
+import {createRoot} from 'react-dom/client'; // Update this import
 
 // Coordinates for Helsinki, Oulu, and Utsjoki
 const cities = [
