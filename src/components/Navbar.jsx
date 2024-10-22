@@ -32,15 +32,15 @@ const Navbar = () => {
           </div>
           <ul className="list-none p-0">
             <li className="p-4 text-center relative group">
-              <Link to="current-weather" smooth={true} duration={500} onClick={closeMenu} className="text-lg cursor-pointer">Nykyinen sää</Link>
+              <Link to="current-weather" smooth={true} duration={500} onClick={closeMenu} className="text-lg cursor-pointer">Current Weather</Link>
               <span className="absolute left-0 bottom-0 w-full h-1 bg-[#18B7BE] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
             </li>
             <li className="p-4 text-center relative group">
-              <Link to="runways" smooth={true} duration={500} onClick={closeMenu} className="text-lg cursor-pointer">Kiitotiet</Link>
+              <Link to="runways" smooth={true} duration={500} onClick={closeMenu} className="text-lg cursor-pointer">Runways</Link>
               <span className="absolute left-0 bottom-0 w-full h-1 bg-[#18B7BE] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
             </li>
             <li className="p-4 text-center relative group">
-              <Link to="forecast" smooth={true} duration={500} onClick={closeMenu} className="text-lg cursor-pointer">Sääennuste</Link>
+              <Link to="forecast" smooth={true} duration={500} onClick={closeMenu} className="text-lg cursor-pointer">Weather forecast</Link>
               <span className="absolute left-0 bottom-0 w-full h-1 bg-[#18B7BE] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
             </li>
           </ul>
