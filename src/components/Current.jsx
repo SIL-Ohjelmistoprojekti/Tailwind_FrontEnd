@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Aurinko from "./Aurinko";
 
 const Current = () => {
-  const [currentWeather, setCurrentWeather] = useState([]);
+  const [currentWeather, setCurrentWeather] = useState({});
   const [measuredTime, setMeasuredTime] = useState(new Date());
 
   function runEverySecond() {
@@ -20,13 +20,12 @@ const Current = () => {
   const fetchWeather = async () => {
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/weather/?muoto=json"
+        "https://api.openweathermap.org/data/2.5/weather?q=hyvink%C3%A4%C3%A4&APPID=13a49403ab1ec48764e253d6a47e110f"
       );
       const data = await response.json();
 
       setCurrentWeather(data);
-      console.log(currentWeather.one_hour_rainfall);
-      console.log("Running code every minute");
+      console.log("Weather data fetched", data);
     } catch (err) {
       throw new Error(err.message);
     }
@@ -39,16 +38,13 @@ const Current = () => {
     return () => clearInterval(weatherInterval);
   }, []);
 
-  const {
-    temperature,
-    humidity,
-    barometric_pressure,
-    one_hour_rainfall,
-    twenty_four_hour_rainfall,
-    average_wind_speed,
-    max_wind_speed,
-    wind_direction,
-  } = currentWeather;
+  // Jos data ei ole vielä ladattu, näytetään "Ladataan..." viesti
+  if (!currentWeather.main || !currentWeather.wind || !currentWeather.clouds) {
+    return <div>Ladataan säätietoja...</div>;
+  }
+
+  // Muunna Kelvin-lämpötila Celsius-asteiksi
+  const kelvinToCelsius = (temp) => (temp - 273.15).toFixed(2);
 
   const formatTime = (date) => {
     const day = String(date.getDate()).padStart(2, "0");
@@ -66,40 +62,37 @@ const Current = () => {
       <div className="flex flex-col gap-4 text-left">
         <div>
           <p id="temperature" className="p-2 bg-blue-200 rounded-lg text-left mb-1">
-            <strong>Temperature:</strong> {temperature || "No data"} °C
+            <strong>Temperature:</strong> {kelvinToCelsius(currentWeather.main.temp)} °C
           </p>
           <p id="humidity" className="p-2 bg-blue-200 rounded-lg text-left mb-1">
-            <strong>Humidity:</strong> {humidity || "No data"} %
+            <strong>Humidity:</strong> {currentWeather.main.humidity} %
           </p>
           <p id="pressure" className="p-2 bg-blue-200 rounded-lg text-left whitespace-nowrap">
-            <strong>Barometric Pressure:</strong> <br/> {barometric_pressure || "No data"} hPa
+            <strong>Barometric Pressure:</strong> <br/> {currentWeather.main.pressure} hPa
           </p>
         </div>
 
         <div>
-          <h3 className="text-xl font-semibold mb-1 text-left ">Wind</h3>
+          <h3 className="text-xl font-semibold mb-1 text-left">Wind</h3>
           <p id="average_wind_speed" className="p-2 bg-blue-100 rounded-lg text-left mb-1">
-            <strong>Average Wind Speed:</strong> {average_wind_speed || "No data"} m/s
+            <strong>Average Wind Speed:</strong> {currentWeather.wind.speed} m/s
           </p>
           <p id="max_wind_speed" className="p-2 bg-blue-100 rounded-lg text-left mb-1">
-            <strong>Max Wind Speed:</strong> {max_wind_speed || "No data"} m/s
+            <strong>Wind Gust:</strong> {currentWeather.wind.gust || "No data"} m/s
           </p>
           <p id="wind_direction" className="p-2 bg-blue-100 rounded-lg text-left">
-            <strong>Wind Direction:</strong> {wind_direction || "No data"} °
+            <strong>Wind Direction:</strong> {currentWeather.wind.deg} °
           </p>
         </div>
 
         <div>
-          <h3 className="text-xl font-semibold mb-1 text-left">Rain</h3>
-          <p id="one_hour_rainfall" className="p-2 bg-blue-100 rounded-lg text-left mb-1">
-            <strong>One Hour Rainfall:</strong> {one_hour_rainfall || "No data"} mm
-          </p>
-          <p id="twenty_four_hour_rainfall" className="p-2 bg-blue-100 rounded-lg text-left">
-            <strong>24 Hour Rainfall:</strong> {twenty_four_hour_rainfall || "No data"} mm
+          <h3 className="text-xl font-semibold mb-1 text-left">Cloudiness</h3>
+          <p id="clouds" className="p-2 bg-blue-100 rounded-lg text-left">
+            <strong>Cloudiness:</strong> {currentWeather.clouds.all} %
           </p>
         </div>
-        <h3 className="text-xl font-semibold text-left">Aurinko</h3>
 
+        <h3 className="text-xl font-semibold text-left">Aurinko</h3>
         <div className=" font-semibold mb-2 text-left p-2 bg-blue-100 rounded-lg">
           <Aurinko />
         </div>
@@ -109,3 +102,4 @@ const Current = () => {
 };
 
 export default Current;
+
