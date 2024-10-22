@@ -269,10 +269,10 @@ const AirportRunways = () => {
 
       <div className="flex space-x-4 mb-4">
         <button onClick={handlePrevious} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-          Edellinen
+          Previous
         </button>
         <button onClick={handleNext} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-          Seuraava
+          Next
         </button>
       </div>
 
@@ -280,10 +280,10 @@ const AirportRunways = () => {
       <div className="text-sm">
         {runwaysData[currentAirport].map((runway, index) => (
           <div key={index} className="text-center mb-2">
-            <div className="font-bold">Suunta {runway.direction}</div>
-            <div>Pituus: {runway.length} m, Leveys: {runway.width} m</div>
-            <div>Pintamateriaali: {runway.surface}</div>
-            <div>Lisätietoa: {runway.details} </div>
+            <div className="font-bold">Direction {runway.direction}</div>
+            <div>Length: {runway.length} m, Leveys: {runway.width} m</div>
+            <div>Surface: {runway.surface}</div>
+            <div>Additional information: {runway.details} </div>
           </div>
         ))}
       </div>
