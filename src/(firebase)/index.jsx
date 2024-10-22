@@ -14,19 +14,20 @@ const firebaseConfig = {
   messagingSenderId: "1024518890397",
   appId: "1:1024518890397:web:b18f586f282218ce130574"
 };
-// Initialize Firebase
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-// Initialize Firestore
-export const firestore = getFirestore(app);
-export const storage = getStorage(app);
-export const auth = getAuth(app);
+// Initialize Firebase services
+const firestore = getFirestore(app);
+const storage = getStorage(app);
+const auth = getAuth(app);
 
 // Initialize Analytics
-export const analytics = (async () => {
-    if (typeof window !== 'undefined') {
-        const supported = await isSupported();
-        return supported ? getAnalytics(app) : null;
-    }
-    return null;
+const analytics = (async () => {
+  if (typeof window !== 'undefined') {
+    const supported = await isSupported();
+    return supported ? getAnalytics(app) : null;
+  }
+  return null;
 })();
+
+export { app, firestore, storage, auth, analytics };
