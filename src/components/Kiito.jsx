@@ -84,18 +84,19 @@ const AirportRunways = () => {
   const menuRef = useRef(null); // Ref valikon ulkopuoliselle klikkaukselle
   const [timeoutId, setTimeoutId] = useState(null); // Aikakatkaisija valikon sulkemista varten
 
-
+//liittyy kiitotien valitsemis valikkoon"
   const handleAirportChange = (airport) => {
     setCurrentAirport(airport);
     setIsMenuOpen(false);  // Sulje valikko mobiilissa kun lentokenttä valitaan
   };
 
+  //Tietokoneella kiitotie valikon aukeaminen kun kursori on päällä
   const handleMouseEnter = () => {
     clearTimeout(timeoutId);
     setIsHovered(true);
     setIsMenuOpen(true); // Open menu on hover
   };
-
+// valikon sulkeminen jos kursori poistuu kiitotiestä
   const handleMouseLeave = () => {
     setIsHovered(false);
     setTimeout(() => {
@@ -113,14 +114,14 @@ const AirportRunways = () => {
       }
     }
   }; 
-  
+  // seuraava buttoni
   const handleNext = () => {
     const airports = Object.keys(runwaysData);
     const currentIndex = airports.indexOf(currentAirport);
     const nextIndex = (currentIndex + 1) % airports.length;
     setCurrentAirport(airports[nextIndex]);
   };
-
+// edellinen buttoni
   const handlePrevious = () => {
     const airports = Object.keys(runwaysData);
     const currentIndex = airports.indexOf(currentAirport);
@@ -128,6 +129,7 @@ const AirportRunways = () => {
     setCurrentAirport(airports[prevIndex]);
   };
 
+  // CHILLING NELIÖ koska se on aika must have ja siisti
   useEffect(() => {
     const interval = setInterval(() => {
       setAngle((prevAngle) => (prevAngle + 1) % 360);
@@ -150,7 +152,7 @@ const AirportRunways = () => {
   }, []);
 
   const renderRunway = (runway) => {
-    // Extract the runway directions (e.g., "04/22" becomes [4, 22])
+   {/*Extract the runway directions (e.g., "04/22" becomes [4, 22]) ehk pitää korjata hiukan. koska lr on left right vissiin niin mitä jos eri ilman suunta. Mut koodi toimii */} 
     const directions = runway.direction.split('/').map(dir => parseInt(dir.replace(/[LR]/, ''), 10));
   
     return directions.map((dir, index) => {
@@ -186,7 +188,7 @@ const AirportRunways = () => {
     onMouseLeave={handleMouseLeave}
     onClick={toggleMenu} // Tämä rivi mahdollistaa valikon avaamisen klikkauksella
   >
-    Kiitotiet
+    runway
     <span className="ml-2 ">
       {isHovered || isMenuOpen ? <FaChevronUp /> : <FaChevronDown />}
     </span>
@@ -199,13 +201,13 @@ const AirportRunways = () => {
 
        {/* Näytetään nykyisen lentokentän nimi ja Posan erikoisuus kun ei muuta keksi miten lisätä viivaa ja välikköö muuttujiin */}
       <h1 className="text-xl font-bold mb-2 whitespace-nowrap text-center">
-        {currentAirport === 'HelsinkiVantaa' ? 'Helsinki-Vantaa' : currentAirport === 'HelsinkiMalmi' ? 'Helsinki Malmi' : currentAirport} Lentokenttä
+        {currentAirport === 'HelsinkiVantaa' ? 'Helsinki-Vantaa' : currentAirport === 'HelsinkiMalmi' ? 'Helsinki Malmi' : currentAirport} Airport
       </h1>
 
         {(isHovered || isMenuOpen) && (
           <div className="absolute top-[-7px] left-0 mt-0 w-full bg-white border rounded shadow-lg z-10">
             <div className="flex justify-between items-center p-2 bg-gray-200">
-              <span>Valitse lentokenttä</span>
+              <span>Choose airport</span>
               <FaTimes
     onClick={() => setIsMenuOpen(false)}
     className="absolute right-2 top-2 cursor-pointer z-50" 
@@ -226,26 +228,44 @@ const AirportRunways = () => {
       </div>
 
       <div className="relative mb-4">
-        <svg width="300" height="300" className="border rounded-full">
-          <circle cx="150" cy="150" r="120" stroke="pink" strokeWidth="3" fill="none" />
-          <circle cx="150" cy="150" r="100" stroke="gray" strokeWidth="1" fill="none" />
-          {runwaysData[currentAirport].map((runway) => renderRunway(runway))}
-          <rect x={x - 10} y={y - 10} width="20" height="20" fill="rgba(0, 0, 255, 0.5)" />
-          <line x1="150" y1="50" x2="150" y2="250" stroke="red" strokeWidth="1" strokeDasharray="4" />
-          <line x1="50" y1="150" x2="250" y2="150" stroke="red" strokeWidth="1" strokeDasharray="4" />
-          {[...Array(36)].map((_, i) => (
-            <text key={i}
-              x={150 + 110 * Math.cos((i * 10 * Math.PI) / 180)}
-              y={150 - 110 * Math.sin((i * 10 * Math.PI) / 180)}
-              fontSize="10"
-              textAnchor="middle"
-              alignmentBaseline="middle"
-            >
-              {i * 10 === 0 ? '0\u00B0/360\u00B0' : `${i * 10}\u00B0`}
-            </text>
-          ))}
-        </svg>
-      </div>
+  {/* SVG-elementti, joka toimii piirtopohjana kiitoratojen visualisoinnille sekä siniselle neliölle */}
+  <svg width="300" height="300" className="border rounded-full">
+    
+    {/* Ympyrä, jonka säde on 120 ja keskikohta (150, 150) eli SVG:n keskellä. Se toimii taustana visualisoinnille */}
+    <circle cx="150" cy="150" r="120" stroke="pink" strokeWidth="3" fill="none" />
+    
+    {/* Toinen ympyrä sisempänä, säde 100, harmaa viiva. Myös tämä toimii taustaelementtinä */}
+    <circle cx="150" cy="150" r="100" stroke="gray" strokeWidth="1" fill="none" />
+    
+    {/* Lentokentän nykyisten kiitoratojen visualisointi kutsumalla renderRunway-funktiota */}
+    {runwaysData[currentAirport].map((runway) => renderRunway(runway))}
+    
+    {/* Alla sinisen neliön piirtäminen, joka liikkuu ympyrän kehällä. Sijainti määräytyy muuttujien `x` ja `y` mukaan */}
+    <rect x={x - 10} y={y - 10} width="20" height="20" fill="rgba(0, 0, 255, 0.5)" />
+    
+    {/* Punainen katkoviiva pystysuunnassa keskeltä (150, 150) ylä- ja alareunaan (50 ja 250) */}
+    <line x1="150" y1="50" x2="150" y2="250" stroke="red" strokeWidth="1" strokeDasharray="4" />
+    
+    {/* Punainen katkoviiva vaakasuunnassa keskeltä (150, 150) vasemmalta oikealle (50 ja 250) */}
+    <line x1="50" y1="150" x2="250" y2="150" stroke="red" strokeWidth="1" strokeDasharray="4" />
+    
+    {/* Kierrosasteet 0°-360° lisätään ympyrän kehälle. `Array(36)` luo 36 kohtaa, jokainen 10° välein. 
+    `Math.cos` ja `Math.sin` laskevat tekstin sijainnin ympyrän kehällä. */}
+    {[...Array(36)].map((_, i) => (
+      <text key={i}
+        x={150 + 110 * Math.cos((i * 10 * Math.PI) / 180)}
+        y={150 - 110 * Math.sin((i * 10 * Math.PI) / 180)}
+        fontSize="10"
+        textAnchor="middle"
+        alignmentBaseline="middle"
+      >
+        {/* Näytetään asteet ympyrän kehällä. 0° ja 360° ovat samassa kohdassa */}
+        {i * 10 === 0 ? '0\u00B0/360\u00B0' : `${i * 10}\u00B0`}
+      </text>
+    ))}
+  </svg>
+</div>
+
 
       <div className="flex space-x-4 mb-4">
         <button onClick={handlePrevious} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
@@ -256,7 +276,7 @@ const AirportRunways = () => {
         </button>
       </div>
 
-      {/* Lentokentän kiitotiet */}
+      {/* Lentokentän kiitotiet lisäteksti osio */}
       <div className="text-sm">
         {runwaysData[currentAirport].map((runway, index) => (
           <div key={index} className="text-center mb-2">
