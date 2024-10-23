@@ -8,9 +8,8 @@ import Admin from './admin/admin.jsx';
 import Login from './admin/Login.jsx'; 
 import NotFound from './components/NotFound/NotFound.jsx';
 import CurrentNews from './admin/CurrentNew.jsx'; 
-import Register from './Admin/Register.jsx'; 
-
-
+import Register from './Admin/Register.jsx';
+import WindRecharts from './components/WindRecharts.jsx'
 const App = () => {
   return (
     <Router>
@@ -37,10 +36,11 @@ const App = () => {
               </div>
 
               <div id="forecast" className="w-full md:flex-grow">
+              <WindRecharts /> 
                 <SaaEnnuste />
-              </div>
 
-              
+              </div>
+            
             </div>
           }
         />

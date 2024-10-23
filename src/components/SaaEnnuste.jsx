@@ -151,7 +151,7 @@ const SaaEnnuste = () => {
     minTemp: "Minimi lämpötila",
     precipitation: "Sateen määrä millimetreinä",
     frostProbability: "Mahdollisuus pakkaselle prosentteina",
-    windSpeed: "Wind speed ",
+    windSpeed: " Max Wind speed ",
     windDirection: "Wind directionnn"
   };
 
