@@ -46,7 +46,7 @@ const Register = () => {
   // Lisää rekisteröintipyyntö Firestoreen adminille
   const addPendingRegistrationNotification = async () => {
     await setDoc(doc(firestore, 'pendingRegistrations', `notification_${Date.now()}`), {
-      notification: 'Uusi rekisteröintipyyntö saapunut.',
+      notification: 'New registration request received.',
       timestamp: serverTimestamp(),
     });
   };
@@ -54,7 +54,7 @@ const Register = () => {
   // Laskurinii
   useEffect(() => {
     let timer;
-    if (countdown > 0 && message.includes('Rekisteröintipyyntö lähetetty')) {
+    if (countdown > 0 && message.includes('Registration request sent')) {
       timer = setInterval(() => {
         setCountdown((prevCountdown) => prevCountdown - 1);
       }, 1000); // Vähennä sekunti joka sekunti
@@ -71,12 +71,12 @@ const Register = () => {
 
     // sähköposti validointi
     if (!validateEmail(email)) {
-      setMessage('Virheellinen sähköpostiosoite.');
+      setMessage('Invalid email address.');
       return;
     }
 
     if (!apiKeys) {
-      setMessage('API-avaimia ei löytynyt. Yritä myöhemmin uudelleen.');
+      setMessage('No API keys found. Try again later.');
       return;
     }
 
@@ -92,11 +92,11 @@ const Register = () => {
     emailjs.send(apiKeys.serviceId, apiKeys.templateId, templateParams, apiKeys.userId)
       .then(() => {
         // Success reksiteröinti
-        setMessage('Rekisteröintipyyntö lähetetty! Admin käsittelee pyyntösi pian.');
+        setMessage('Registration request sent! Admin will process your request soon.');
         addPendingRegistrationNotification(); // Lisää tieto Firestoreen
       })
       .catch(() => {
-        setMessage('Virhe rekisteröitymisessä. Yritä uudelleen.');
+        setMessage('Error in registration. Try again.');
       });
 
     setFirstName('');
@@ -109,10 +109,10 @@ const Register = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <form className="bg-white p-6 rounded shadow-md" onSubmit={handleRegister}>
-        <h2 className="text-2xl font-bold mb-4">Rekisteröidy</h2>
+        <h2 className="text-2xl font-bold mb-4">Register</h2>
         <input
           type="text"
-          placeholder="Etunimi"
+          placeholder="Firstname"
           className="w-full p-2 mb-4 border rounded"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
@@ -120,7 +120,7 @@ const Register = () => {
         />
         <input
           type="text"
-          placeholder="Sukunimi"
+          placeholder="Lastname"
           className="w-full p-2 mb-4 border rounded"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
@@ -128,7 +128,7 @@ const Register = () => {
         />
         <input
           type="email"
-          placeholder="Sähköposti"
+          placeholder="Email"
           className="w-full p-2 mb-4 border rounded"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -136,14 +136,14 @@ const Register = () => {
         />
         <input
           type="text"
-          placeholder="Puhelinnumero"
+          placeholder="Phone number"
           className="w-full p-2 mb-4 border rounded"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
           required
         />
         <textarea
-          placeholder="Miksi haluat rekisteröityä?"
+          placeholder="Why do you want to register?"
           className="w-full p-2 mb-4 border rounded"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
@@ -153,7 +153,7 @@ const Register = () => {
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded"
         >
-          Lähetä rekisteröitymispyyntö
+          Send a registration request
         </button>
 
         {message && (
@@ -162,11 +162,12 @@ const Register = () => {
             {/* Laskuriii */}
             {message.includes('Rekisteröintipyyntö lähetetty') && (
               <>
-                <p className="mt-2">Palaamme asiaan mahdollisimman pian. Kiitos rekisteröitymisestä!</p>
-                <p className="mt-2">
-                  Palaat pääsivulle <strong>{countdown} sekunnin</strong> kuluttua. Tai voit myös palata{' '}
-                  <a href="/" className="text-blue-600 underline">tästä</a>.
-                </p>
+                <p className="mt-2">We will get back to you as soon as possible. Thank you for registering!</p>
+<p className="mt-2">
+  You will be redirected to the homepage in <strong>{countdown} seconds</strong>. Or you can also return{' '}
+  <a href="/" className="text-blue-600 underline">here</a>.
+</p>
+
               </>
             )}
           </div>
