@@ -44,7 +44,6 @@ const SaaEnnuste = () => {
 
         const response = await fetch(apiUrl, {
           headers: {
-            'User-Agent': 'YourAppName/1.0',
           },
         });
 
