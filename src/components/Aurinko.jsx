@@ -40,7 +40,8 @@ const Aurinko = () => {
       {cities.map(city => (
         <div key={city.name}>
             <div className='whitespace-nowrap text-center'>
-          {city.name} {sunriseSunsetData[city.name]?.sunrise} - {sunriseSunsetData[city.name]?.sunset}
+          {city.name} <br/>
+          {sunriseSunsetData[city.name]?.sunrise} - {sunriseSunsetData[city.name]?.sunset}
           </div>
         </div>
       ))}

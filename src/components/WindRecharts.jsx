@@ -28,7 +28,11 @@ const WindRecharts = () => {
 
         // Asetetaan viimeisin päivitysaika API:sta (ensimmäinen aikaleima hourly.time -taulukosta)
         const apiUpdateTime = data.hourly.time[0];
-        setLastApiUpdate(new Date(apiUpdateTime).toLocaleString());
+        const updateDate = new Date(apiUpdateTime);
+        setLastApiUpdate({
+          date: updateDate.toLocaleDateString(),
+          full: updateDate.toLocaleString(),
+        });
 
       } catch (error) {
         setError('Error fetching wind data');
@@ -83,7 +87,7 @@ const WindRecharts = () => {
 
   return (
     <div className="p-0 bg-gray-100 rounded-lg shadow-md">
-      <h2 className="text-xl font-bold mb-1 mt-1 ml-2">Wind Speed History</h2>
+      <h2 className="text-xl font-bold mb-1 ml-2">Wind Speed {lastApiUpdate?.date}, Riihimäki </h2>
       <ResponsiveContainer width="95%" height={200} style={{ marginLeft: '-20px' }}>
       <LineChart data={lineChartData}>
           <XAxis dataKey="time" />
@@ -94,7 +98,7 @@ const WindRecharts = () => {
         </LineChart>
       </ResponsiveContainer>
 
-      <h3 className="font-semibold mb-2 ml-2">Wind Direction</h3>
+      <h3 className="font-semibold mb-2 ml-2">Current Wind Direction</h3>
       <div style={{ position: 'relative', width: '200px', height: '200px', margin: '0 auto' }}>
         <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
           {/* Outer Compass circle */}
@@ -174,7 +178,7 @@ const WindRecharts = () => {
       </div>
 
       {/* Show when the data was last updated */}
-      <p className="text-sm text-gray-600 mt-4 ml-2">Last updated from API: {lastApiUpdate}</p>
+      <p className="text-sm text-gray-600 mt-4 ml-2">Last updated: {lastApiUpdate?.full}</p>
     </div>
   );
 };
