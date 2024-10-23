@@ -84,8 +84,8 @@ const WindRecharts = () => {
   return (
     <div className="p-0 bg-gray-100 rounded-lg shadow-md">
       <h2 className="text-xl font-bold mb-1 mt-1 ml-2">Wind Speed History</h2>
-      <ResponsiveContainer width="100%" height={200}>
-        <LineChart data={lineChartData}>
+      <ResponsiveContainer width="95%" height={200} style={{ marginLeft: '-20px' }}>
+      <LineChart data={lineChartData}>
           <XAxis dataKey="time" />
           <YAxis />
           <Tooltip />

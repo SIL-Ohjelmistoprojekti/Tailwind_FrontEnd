@@ -244,7 +244,7 @@ className={`absolute left-1/2 transform -translate-x-[calc(50%+20px)] mt-1 bg-wh
           onMouseLeave={() => handleMouseLeave('date')}
         />
         {infoVisible['date'] && (
-        <div className="absolute left-0 mt-1 bg-white border border-gray-300 p-2 rounded shadow-lg z-10">
+        <div className="absolute left-0 mt-1 bg-white border border-gray-300 p-1 rounded shadow-lg z-10">
           {infoTexts['date']}
         </div>
       )}
@@ -335,8 +335,8 @@ className={`absolute left-1/2 transform -translate-x-[calc(50%+20px)] mt-1 bg-wh
   <div className="grid grid-cols-7 gap-1 mb-1">
     {weatherData.map((item, index) => (
       <React.Fragment key={index}>
-        <span className="font-bold text-xs p-2 bg-gray-200 rounded">{item.weekday}</span>
-        <span className="font-bold text-xs p-2 bg-gray-200 rounded">{item.time}</span>
+        <span className="font-bold text-xs p-1 bg-gray-200 rounded">{item.weekday}</span>
+        <span className="font-bold text-xs p-1 bg-gray-200 rounded">{item.time}</span>
         <span className="font-bold text-xs text-center p-0 bg-gray-200 rounded">{item.temperatureMax} °C</span>
         <span className="font-bold text-xs text-center p-0 bg-gray-200 rounded">{item.temperatureMin} °C</span>
         <span className="font-bold text-xs text-center p-0 bg-gray-200 rounded">{item.precipitation} mm</span>
