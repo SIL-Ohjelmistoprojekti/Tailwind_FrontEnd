@@ -1,7 +1,6 @@
-// Login.jsx
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { auth } from '../(firebase)/index';
 
 const Login = () => {
@@ -44,6 +43,9 @@ const Login = () => {
         <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded">
           Kirjaudu sisään
         </button>
+        <p className="mt-4 text-center">
+          Not have an account? <Link to="/register" className="text-blue-600">Register here</Link>
+        </p>
       </form>
     </div>
   );
