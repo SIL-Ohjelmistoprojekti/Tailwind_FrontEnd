@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {FaInfoCircle, FaThermometerHalf, FaTimes} from 'react-icons/fa';
 import '../index.css';
-
 const SaaEnnuste = () => {
   // Tilamuuttujat säilyttävät säädataa ja komponentin tilaa
   const [weatherData, setWeatherData] = useState([]); // Säilyttää haetun säädatan
@@ -13,6 +12,8 @@ const SaaEnnuste = () => {
   const [expandedIndex, setExpandedIndex] = useState(null); // Hallitsee, mikä item on avattu
   const [expandedDateIndex, setExpandedDateIndex] = useState(null); // Hallitsee, mikä päivämääräjoukko on avattu
   const infoRef = useRef(null); // Ref ulkopuolisten klikkausten käsittelyä varten tietopop-upissa
+  const [windData, setWindData] = useState([]); // Säilyttää tuulen tiedot
+
   
   // Effect käsittelee näytön koon muutoksia ja määrittää laitteen tyypin
   useEffect(() => {
@@ -71,8 +72,8 @@ const SaaEnnuste = () => {
           const details = item.data.next_24_hours.details;
 
           // Get the weekday from the date
-          const weekday = new Date(time).toLocaleDateString('fi-FI', { weekday: 'long', timeZone: 'Europe/Helsinki' });
-          const capitalizedWeekday = weekday.charAt(0).toUpperCase() + weekday.slice(1); // Capitalize first letter
+          const weekday = new Date(time).toLocaleDateString('en-US', { weekday: 'long', timeZone: 'Europe/Helsinki' });
+  const capitalizedWeekday = weekday.charAt(0).toUpperCase() + weekday.slice(1); // Capitalize first letter
 
           return {
             weekday: capitalizedWeekday, // Use capitalized weekday
@@ -99,18 +100,59 @@ const SaaEnnuste = () => {
 
     fetchData();
   }, []);
+  useEffect(() => {
+    // Tuulidatan haku Tuuli.jsx-komponentin sisällön perusteella
+    const fetchWindData = async () => {
+      const apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=60.6333&longitude=24.8667&hourly=wind_speed_10m,wind_direction_10m&daily=wind_speed_10m_max&forecast_days=14';
+
+      try {
+        const response = await fetch(apiUrl);
+        const jsonData = await response.json();
+
+        if (!jsonData || !jsonData.hourly || !jsonData.daily) {
+          console.error('Wind data structure is not as expected:', jsonData);
+          return;
+        }
+
+        const windSpeed = jsonData.daily.wind_speed_10m_max;
+        const windDirection = jsonData.hourly.wind_direction_10m.slice(0, 14);
+
+        const extractedWindData = windSpeed.map((speed, index) => ({
+          windSpeed: speed,
+          windDirection: windDirection[index],
+        }));
+
+        setWindData(extractedWindData);
+      } catch (error) {
+        console.error('Error fetching wind data:', error);
+      }
+    };
+
+    fetchWindData();
+  }, []);
 
   const info = {
     mobiili: "Viikkoja painamalla saat lisätietoa tulevista sääennusteista",
   };
-
+  const otsikko = {
+    weekday: "Weekday",
+    date: "Date",
+    maxTemp: "Max. T",
+    minTemp: "Min. T",
+    precipitation: "Rain(mm)",
+    windSpeed: "Wind Speed (km/h)",  
+    windDirection: "Wind Direction (°)"  
+  };
+  
   const infoTexts = {
     weekday: "Viikonpäivä",
     date: "Tämä päivämäärä tarkoittaa ennustettavaa säätä. Saatavilla oleva tieto voi muuttua.",
     maxTemp: "Ennustamalla arviout maksimi lämpötila",
     minTemp: "Minimi lämpötila",
     precipitation: "Sateen määrä millimetreinä",
-    frostProbability: "Mahdollisuus pakkaselle prosentteina"
+    frostProbability: "Mahdollisuus pakkaselle prosentteina",
+    windSpeed: "Wind speed ",
+    windDirection: "Wind directionnn"
   };
 
   const handleMouseEnter = (key) => {
@@ -152,7 +194,7 @@ const SaaEnnuste = () => {
           ) : (
             <div>
               <h2 className="text-xl font-bold mb-1">
-                Sääennuste 14 pvä <br/>{startDate} - {endDate}
+              14-Day Weather Forecast <br/>{startDate} - {endDate}
                 {deviceType === 'mobile' && (
                   <span className="inline-block relative group ml-2">
                     <FaInfoCircle
@@ -176,57 +218,135 @@ className={`absolute left-1/2 transform -translate-x-[calc(50%+20px)] mt-1 bg-wh
               </h2>
 
               {deviceType === 'desktop' ? (
-                <div>
-                  <div className="grid grid-cols-6 gap-3 font-bold mb-1"> {/* Changed to 6 columns */}
-                    {Object.keys(infoTexts).map((key) => (
-                      <div key={key} className="relative group">
-                        <span className="flex items-center whitespace-nowrap">
-                          {key === 'weekday' ? (
-                            'Week Day'
-                          ) : key === 'date' ? (
-                            'Date'
-                          ) : key === 'maxTemp' ? (
-                            <>Max <FaThermometerHalf /> (°C)</>
-                          ) : key === 'minTemp' ? (
-                            <>Min <FaThermometerHalf /> (°C)</>
-                          ) : key === 'precipitation' ? (
-                            'Rain (mm)'
-                          ) : key === 'frostProbability' ? (
-                            'Frost(%)'
-                          ) : null}
-                        </span>
+  <div>
+    {/* Otsikot säädatalle */}
+    <div className="grid grid-cols-7 gap-3 font-bold text-center">
+      <div className="relative group">
+        <span>{otsikko.weekday}</span>
+        <br/>
+        <FaInfoCircle
+          className="inline-block ml-1 text-blue-500 cursor-pointer"
+          onMouseEnter={() => handleMouseEnter('weekday')}
+          onMouseLeave={() => handleMouseLeave('weekday')}
+        />
+        {infoVisible['weekday'] && (
+          <div className="absolute left-0 mt-1 bg-white border border-gray-300 p-2 rounded shadow-lg z-10">
+            {infoTexts['weekday']}
+          </div>
+        )}
+      </div>
+      <div className="relative group">
+        <span>{otsikko.date}</span>
+        <br/>
+        <FaInfoCircle
+          className="inline-block ml-1 text-blue-500 cursor-pointer"
+          onMouseEnter={() => handleMouseEnter('date')}
+          onMouseLeave={() => handleMouseLeave('date')}
+        />
+        {infoVisible['date'] && (
+        <div className="absolute left-0 mt-1 bg-white border border-gray-300 p-2 rounded shadow-lg z-10">
+          {infoTexts['date']}
+        </div>
+      )}
+    </div>
+    <div className="col-span-2">
+      <div className="text-center">Temperature:</div>
+      <div className="grid grid-cols-2">
+        <div className="relative group ">
+          <span>Max</span>
+          <br/>
+          <FaInfoCircle
+            className="inline-block ml-1 text-blue-500 cursor-pointer mb-1"
+            onMouseEnter={() => handleMouseEnter('maxTemp')}
+            onMouseLeave={() => handleMouseLeave('maxTemp')}
+          />
+          {infoVisible['maxTemp'] && (
+            <div className="absolute left-0 mt-1 bg-white border border-gray-300 p-2 rounded shadow-lg z-10">
+              {infoTexts['maxTemp']}
+            </div>
+          )}
+        </div>
+        <div className="relative group ">
+          <span>Min</span>
+          <br/>
+          <FaInfoCircle
+            className="inline-block ml-1 text-blue-500 cursor-pointer mb-1"
+            onMouseEnter={() => handleMouseEnter('minTemp')}
+            onMouseLeave={() => handleMouseLeave('minTemp')}
+          />
+          {infoVisible['minTemp'] && (
+            <div className="absolute right-0 mt-1 bg-white border border-gray-300 p-2 rounded shadow-lg z-10">
+              {infoTexts['minTemp']}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+    <div className="relative group">
+        <span>{otsikko.precipitation}</span>
+        <br/>
+        <FaInfoCircle
+          className="inline-block ml-1 text-blue-500 cursor-pointer mb-1"
+          onMouseEnter={() => handleMouseEnter('precipitation')}
+          onMouseLeave={() => handleMouseLeave('precipitation')}
+        />
+        {infoVisible['precipitation'] && (
+        <div className="absolute left-0 mt-1 bg-white border border-gray-300 p-2 rounded shadow-lg z-10">
+          {infoTexts['precipitation']}
+        </div>
+      )}
+    </div>
+    {/* Wind otsikko */} 
+    <div className="col-span-2  ">
+      <div className="text-center">Wind:</div>
+      <div className="grid grid-cols-2">
+        <div className="relative group ">
+          <span>Speed</span>
+          <br/>
+          <FaInfoCircle
+            className="inline-block ml-1 text-blue-500 cursor-pointer mb-1"
+            onMouseEnter={() => handleMouseEnter('windSpeed')}
+            onMouseLeave={() => handleMouseLeave('windSpeed')}
+          />
+          {infoVisible['windSpeed'] && (
+            <div className="absolute left-0 mt-1 bg-white border border-gray-300 p-2 rounded shadow-lg z-10">
+              {infoTexts['windSpeed']}
+            </div>
+          )}
+        </div>
+        <div className="relative group mb-1 ">
+          <span>Direction</span>
+          <br/>
+          <FaInfoCircle
+            className="inline-block ml-1 text-blue-500 cursor-pointer"
+            onMouseEnter={() => handleMouseEnter('windDirection')}
+            onMouseLeave={() => handleMouseLeave('windDirection')}
+          />
+          {infoVisible['windDirection'] && (
+            <div className="absolute right-0 mt-1 bg-white border border-gray-300 p-2 rounded shadow-lg z-10">
+              {infoTexts['windDirection']}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
 
-                        <FaInfoCircle
-                          className="inline-block mt-1 text-blue-500 cursor-pointer"
-                          onMouseEnter={() => handleMouseEnter(key)} 
-                          onMouseLeave={() => handleMouseLeave(key)} 
-                        />
-
-                        {infoVisible[key] && (
-                          <div
-                            className={`absolute ${window.innerWidth >= 640 ? 'right-0 translate-x-full mr-36' : 'left-1/2 transform -translate-x-1/2'} mt-1 bg-white border border-gray-300 p-2 rounded shadow-lg z-10`}
-                          >
-                            <p>{infoTexts[key]}</p>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="grid grid-cols-6 gap-1 mb-1">
-                    {weatherData.map((item, index) => (
-                      <React.Fragment key={index}>
-                        <span className="p-2 bg-gray-200 rounded">{item.weekday}</span>{/* Added weekday here */}
-                        <span className="p-2 bg-gray-200 rounded">{item.time}</span>
-                        <span className="p-2 bg-gray-200 rounded">{item.temperatureMax} °C</span>
-                        <span className="p-2 bg-gray-200 rounded">{item.temperatureMin} °C</span>
-                        <span className="p-2 bg-gray-200 rounded">{item.precipitation} mm</span>
-                        <span className="p-2 bg-gray-200 rounded whitespace-nowrap">{item.frostProbability}%</span>
-                      </React.Fragment>
-                    ))}
-                  </div>
-                </div>
-              ) : (
+  <div className="grid grid-cols-7 gap-1 mb-1">
+    {weatherData.map((item, index) => (
+      <React.Fragment key={index}>
+        <span className="font-bold text-xs p-2 bg-gray-200 rounded">{item.weekday}</span>
+        <span className="font-bold text-xs p-2 bg-gray-200 rounded">{item.time}</span>
+        <span className="font-bold text-xs text-center p-0 bg-gray-200 rounded">{item.temperatureMax} °C</span>
+        <span className="font-bold text-xs text-center p-0 bg-gray-200 rounded">{item.temperatureMin} °C</span>
+        <span className="font-bold text-xs text-center p-0 bg-gray-200 rounded">{item.precipitation} mm</span>
+        <span className="font-bold text-xs text-center p-0 bg-gray-200 rounded">{windData[index]?.windSpeed || 'Ei dataa'} km/h</span>
+        <span className="font-bold text-xs text-center p-0 bg-gray-200 rounded">{windData[index]?.windDirection || 'Ei dataa'}°</span>
+      </React.Fragment>
+      ))}
+    </div>
+  </div>
+) : (
                 <div className="grid grid-cols-1 gap-4 font-bold mb-2">
                   {[0, 7].map((weekIndex) => {
                     const weekStart = new Date(new Date().setDate(new Date().getDate() + weekIndex));
@@ -251,15 +371,15 @@ className={`absolute left-1/2 transform -translate-x-[calc(50%+20px)] mt-1 bg-wh
                                   {item.weekday} - {item.time} {/* Updated to include weekday */}
                                 </div>
                                 {expandedIndex === index && (
-                                  <div className="grid grid-cols-4 gap-4 bg-gray-200 p-2 rounded-lg whitespace-nowrap ">
-                                    <span>Max T <FaThermometerHalf /> {item.temperatureMax} °C</span>
-                                    <br/>
-                                    <span>Sade {item.precipitation} (mm)</span>
-                                    <br/>
-                                    <span>Min T<FaThermometerHalf /> {item.temperatureMin} °C</span>
-                                    <br/>                                    <br/>
-                                    <span>Pakkanen {item.frostProbability} (%) </span>
-                                  </div>
+                                 <div className="grid grid-cols-1 gap-2 bg-gray-200 p-2 rounded-lg whitespace-nowrap">
+                                 <span className="inline-flex items-center whitespace-nowrap font-bold text-xs text-center p-0 bg-gray-200 rounded">Max T: {item.temperatureMax} °C <FaThermometerHalf /></span>
+                                 <span className="inline-flex items-center whitespace-nowrap font-bold text-xs text-center p-0 bg-gray-200 rounded">Min T: {item.temperatureMin} °C <FaThermometerHalf /></span>
+                                 <span className="inline-flex items-center whitespace-nowrap font-bold text-xs text-center p-0 bg-gray-200 rounded">Rain: {item.precipitation} mm</span>
+                                 <span className="inline-flex items-center whitespace-nowrap font-bold text-xs text-center p-0 bg-gray-200 rounded">Wind Speed: {windData[index]?.windSpeed || 'Ei dataa'} km/h</span>
+                                 <span className="inline-flex items-center whitespace-nowrap font-bold text-xs text-center p-0 bg-gray-200 rounded">Wind Direction: {windData[index]?.windDirection || 'Ei dataa'}°</span>
+                                 
+                               </div>
+                               
                                 )}
                               </div>
                             ))} 
@@ -271,7 +391,7 @@ className={`absolute left-1/2 transform -translate-x-[calc(50%+20px)] mt-1 bg-wh
                 </div>
               )}
               <div className="mt-1 text-sm text-gray-600">
-                Päivitetty: {updatedAt} | Sijainti: Suomi, {city}
+                Updated: {updatedAt} | Location: Finland, {city}
               </div>
             </div>
           )}
