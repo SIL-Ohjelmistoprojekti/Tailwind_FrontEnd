@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc,setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, firestore } from '../(firebase)/index';
 
 const Admin = () => {
