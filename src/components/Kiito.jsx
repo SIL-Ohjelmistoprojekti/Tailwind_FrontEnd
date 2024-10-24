@@ -83,6 +83,16 @@ const AirportRunways = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null); // Ref valikon ulkopuoliselle klikkaukselle
   const [timeoutId, setTimeoutId] = useState(null); // Aikakatkaisija valikon sulkemista varten
+  const directions = [
+    { label: 'N', angle: 0 },
+    { label: 'NE', angle: 45 },
+    { label: 'E', angle: 90 },
+    { label: 'SE', angle: 135 },
+    { label: 'S', angle: 180 },
+    { label: 'SW', angle: 225 },
+    { label: 'W', angle: 270 },
+    { label: 'NW', angle: 315 }
+  ];
 
 //liittyy kiitotien valitsemis valikkoon"
   const handleAirportChange = (airport) => {
@@ -156,18 +166,18 @@ const AirportRunways = () => {
     const directions = runway.direction.split('/').map(dir => parseInt(dir.replace(/[LR]/, ''), 10));
   
     return directions.map((dir, index) => {
-      // Calculate the angle for the runway direction
-      const angle = ((dir * 10) / 360) * 2 * Math.PI;
+      // Lisää 90 astetta (eli Math.PI / 2 radiaania), jotta 0° on pohjoisessa
+      const angle = ((dir * 10 - 90) * Math.PI) / 180;
   
-      // Calculate the endpoint of the line based on the angle
-      const x = 150 + 120 * Math.cos(angle);  // 150 is the center of the circle, 120 is the radius
-      const y = 150 - 120 * Math.sin(angle);  // Subtracting because y-axis is inverted in SVG
+      // Laske kiitotien päätepisteet
+      const x = 150 + 120 * Math.cos(angle);
+      const y = 150 + 120 * Math.sin(angle); // Poista negatiivinen, koska haluamme pohjoisen ylös
   
       return (
         <line
-          key={`${runway.direction}-${index}`}  // Use direction and index as key
-          x1={150} y1={150}  // Start from the center of the circle
-          x2={x} y2={y}  // Draw the line to the calculated endpoint
+          key={`${runway.direction}-${index}`}
+          x1={150} y1={150}
+          x2={x} y2={y}
           stroke="rgba(128, 128, 128, 0.7)"
           strokeWidth="20"
           strokeLinecap="round"
@@ -228,6 +238,7 @@ const AirportRunways = () => {
       </div>
 
       <div className="relative mb-4">
+        
   {/* SVG-elementti, joka toimii piirtopohjana kiitoratojen visualisoinnille sekä siniselle neliölle */}
   <svg width="300" height="300" className="border rounded-full">
     
@@ -249,20 +260,34 @@ const AirportRunways = () => {
     {/* Punainen katkoviiva vaakasuunnassa keskeltä (150, 150) vasemmalta oikealle (50 ja 250) */}
     <line x1="50" y1="150" x2="250" y2="150" stroke="red" strokeWidth="1" strokeDasharray="4" />
     
-    {/* Kierrosasteet 0°-360° lisätään ympyrän kehälle. `Array(36)` luo 36 kohtaa, jokainen 10° välein. 
-    `Math.cos` ja `Math.sin` laskevat tekstin sijainnin ympyrän kehällä. */}
-    {[...Array(36)].map((_, i) => (
-      <text key={i}
-        x={150 + 110 * Math.cos((i * 10 * Math.PI) / 180)}
-        y={150 - 110 * Math.sin((i * 10 * Math.PI) / 180)}
-        fontSize="10"
-        textAnchor="middle"
-        alignmentBaseline="middle"
-      >
-        {/* Näytetään asteet ympyrän kehällä. 0° ja 360° ovat samassa kohdassa */}
-        {i * 10 === 0 ? '0\u00B0/360\u00B0' : `${i * 10}\u00B0`}
-      </text>
-    ))}
+    {directions.map((dir) => (
+    <text
+      key={dir.label}
+      x={150 + 135 * Math.cos((dir.angle - 90) * (Math.PI / 180))}  // Tekstin X-koordinaatti
+      y={150 + 135 * Math.sin((dir.angle - 90) * (Math.PI / 180))}  // Tekstin Y-koordinaatti
+      fontSize="12"
+      fontWeight="bold"
+      textAnchor="middle"
+      alignmentBaseline="middle"
+    >
+      {dir.label}
+    </text>
+  ))}
+
+  {/* Asteikko (0° - 360°) */}
+  {[...Array(36)].map((_, i) => (
+    <text key={i}
+      x={150 + 110 * Math.cos(((360 - i * 10 + 90) * Math.PI) / 180)}  // Asteikon X-koordinaatti
+      y={150 - 110 * Math.sin(((360 - i * 10 + 90) * Math.PI) / 180)}  // Asteikon Y-koordinaatti
+      fontSize="10"
+      textAnchor="middle"
+      alignmentBaseline="middle"
+    >
+      {i * 10 === 0 ? '360' : `${i * 10}\u00B0`}
+    </text>
+))}
+
+
   </svg>
 </div>
 
@@ -279,7 +304,7 @@ const AirportRunways = () => {
       {/* Lentokentän kiitotiet lisäteksti osio */}
       <div className="text-sm">
         {runwaysData[currentAirport].map((runway, index) => (
-          <div key={index} className="text-center mb-2">
+          <div key={  index} className="text-center mb-2">
             <div className="font-bold">Direction {runway.direction}</div>
             <div>Length: {runway.length} m, Leveys: {runway.width} m</div>
             <div>Surface: {runway.surface}</div>
