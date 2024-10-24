@@ -60,26 +60,35 @@ const WindRecharts = () => {
   // Cardinal directions for the compass
   const compassDirections = [
     { name: 'N', angle: 0 },
+    { name: 'NE', angle: 45},
     { name: 'E', angle: 90 },
+    { name: 'SE', angle: 135 },
     { name: 'S', angle: 180 },
+    { name: 'SW', angle: 225 },
     { name: 'W', angle: 270 },
+    { name: 'NW', angle: 315 }
   ];
 
   // Compass degree labels (add degrees every 30°)
   const degreeLabels = [
-    { degree: 0, label: '0°' },
-    { degree: 30, label: '30°' },
+    { degree: 20, label: '20°' },
+    { degree: 40, label: '40°' },
     { degree: 60, label: '60°' },
-    { degree: 90, label: '90°' },
+    { degree: 80, label: '80°' },
+    { degree: 100, label: '100°' },
     { degree: 120, label: '120°' },
-    { degree: 150, label: '150°' },
+    { degree: 140, label: '140°' },
+    { degree: 160, label: '160°' },
     { degree: 180, label: '180°' },
-    { degree: 210, label: '210°' },
+    { degree: 200, label: '200°' },
+    { degree: 220, label: '220°' },
     { degree: 240, label: '240°' },
-    { degree: 270, label: '270°' },
+    { degree: 260, label: '260°' },
+    { degree: 280, label: '280°' },
     { degree: 300, label: '300°' },
-    { degree: 330, label: '330°' },
-    { degree: 360, label: '0°/360°' },
+    { degree: 320, label: '320°' },
+    { degree: 340, label: '340°' },
+    { degree: 360, label: '360°' },
   ];
 
   const currentWindDirection = windDirectionData[0]; // First wind direction
@@ -89,7 +98,7 @@ const WindRecharts = () => {
     <div className="p-0 bg-gray-100 rounded-lg shadow-md">
       <h2 className="text-xl font-bold mb-1 ml-2">Wind Speed {lastApiUpdate?.date}, Riihimäki </h2>
       <ResponsiveContainer width="95%" height={200} style={{ marginLeft: '-20px' }}>
-      <LineChart data={lineChartData}>
+        <LineChart data={lineChartData}>
           <XAxis dataKey="time" />
           <YAxis />
           <Tooltip />
@@ -99,38 +108,48 @@ const WindRecharts = () => {
       </ResponsiveContainer>
 
       <h3 className="font-semibold mb-2 ml-2">Current Wind Direction</h3>
-      <div style={{ position: 'relative', width: '200px', height: '200px', margin: '0 auto' }}>
+      <div style={{ position: 'relative', width: '300px', height: '300px', margin: '0 auto' }}>
         <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
-          {/* Outer Compass circle */}
-          <circle cx="50%" cy="50%" r="80" stroke="#000" strokeWidth="2" fill="none" />
+          {/* Suurempi ulompi ympyrä (r="100") */}
+          <circle cx="50%" cy="50%" r="100" stroke="#000" strokeWidth="2" fill="none" />
           
-          {/* Inner Compass circle */}
-          <circle cx="50%" cy="50%" r="50" stroke="#000" strokeWidth="1" fill="none" />
+          {/* Suurempi sisempi ympyrä (r="70") */}
+          <circle cx="50%" cy="50%" r="70" stroke="#000" strokeWidth="1" fill="none" />
 
-          {/* Ilman suuntausmerkkien alapuolella olevat valkoset viivat */}
+          {/* Viivojen muokkaaminen (suurempi arvo 52) */}
           {compassDirections.map((direction) => (
             <line
               key={direction.name}
               x1="50%"
               y1="50%"
-              x2={`${50 + 42 * Math.sin((direction.angle * Math.PI) / 180)}%`}
-              y2={`${50 - 42 * Math.cos((direction.angle * Math.PI) / 180)}%`}
+              x2={`${50 + 52 * Math.sin((direction.angle * Math.PI) / 180)}%`}
+              y2={`${50 - 52 * Math.cos((direction.angle * Math.PI) / 180)}%`}
               stroke="#ccc"
               strokeWidth="1"
             />
           ))}
 
-          {/* punasen nuolen kontroilointi */}
+          {/* Punaisen nuolen päivitys (suurempi arvo 39) */}
           <line
             x1="50%"
             y1="50%"
-            x2={`${50 + 29 * Math.sin((rotationAngle * Math.PI) / 180)}%`}
-            y2={`${50 - 29 * Math.cos((rotationAngle * Math.PI) / 180)}%`}
+            x2={`${50 + 39 * Math.sin((rotationAngle * Math.PI) / 180)}%`}
+            y2={`${50 - 39 * Math.cos((rotationAngle * Math.PI) / 180)}%`}
             stroke="#ff0000"
             strokeWidth="2"
             markerEnd="url(#arrowhead)"
           />
-
+ {/* Lisätään tuulen suunnan numero nuolen päähän */}
+ <text
+      x={`${50 + 47 * Math.sin((rotationAngle * Math.PI) / 180)}%`}
+      y={`${50 - 41 * Math.cos((rotationAngle * Math.PI) / 180)}%`}
+      textAnchor="middle"
+      fontSize="12"
+      fontWeight="bold"
+      fill="#000"
+    >
+      {rotationAngle}°
+    </text>
           {/* Arrowhead definition */}
           <defs>
             <marker
@@ -145,28 +164,28 @@ const WindRecharts = () => {
             </marker>
           </defs>
 
-          {/* N, W, E, S sijainti. Ylempi on sivuttais suunta eli 50 + 46 niin muunnan 46 */}
+          {/* N, W, E, S sijainnin muuttaminen suuremmaksi (suurempi arvo 56) */}
           {compassDirections.map((dir) => (
             <text
               key={dir.name}
-              x={`${50 + 46 * Math.sin((dir.angle * Math.PI) / 180)}%`}
-              y={`${50 - 46 * Math.cos((dir.angle * Math.PI) / 180)}%`}
+              x={`${50 + 47 * Math.sin((dir.angle * Math.PI) / 180)}%`}
+              y={`${50 - 47 * Math.cos((dir.angle * Math.PI) / 180)}%`}
               textAnchor="middle"
               fontSize="16"
               fontWeight="bold"
               fill="#ff0000"
-              dy={dir.name === 'S' ? '0.5em' : '0.3em'} // Adjust vertical position for better visibility
+              dy={dir.name === 'S' ? '0.5em' : '0.3em'}
             >
               {dir.name}
             </text>
           ))}
 
-          {/* Asteet ja niiden kontrointi */}
+          {/* Asteiden (degree labels) sijoittaminen suuremmaksi (suurempi arvo 40) */}
           {degreeLabels.map((degree) => (
             <text
               key={degree.degree}
-              x={`${50 + 30 * Math.sin((degree.degree * Math.PI) / 180)}%`}
-              y={`${50 - 30 * Math.cos((degree.degree * Math.PI) / 180)}%`}
+              x={`${50 + 40 * Math.sin((degree.degree * Math.PI) / 180)}%`}
+              y={`${50 - 40 * Math.cos((degree.degree * Math.PI) / 180)}%`}
               textAnchor="middle"
               fontSize="10"
               fill="#000"
@@ -178,7 +197,7 @@ const WindRecharts = () => {
       </div>
 
       {/* Show when the data was last updated */}
-      <p className="text-sm text-gray-600 mt-4 ml-2">Last updated: {lastApiUpdate?.full}</p>
+      <p className="text-sm text-gray-600 mt-4 ml-2">Wind charts last updated: {lastApiUpdate?.full}</p>
     </div>
   );
 };
