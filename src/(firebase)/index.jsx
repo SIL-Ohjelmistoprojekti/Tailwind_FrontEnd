@@ -7,12 +7,12 @@ import {getStorage} from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC2yaB4j2g-GlDGhUUMaFYnonIxuVHEOd0",
-  authDomain: "suomen-ilmailuliito.firebaseapp.com",
-  projectId: "suomen-ilmailuliito",
-  storageBucket: "suomen-ilmailuliito.appspot.com",
-  messagingSenderId: "1024518890397",
-  appId: "1:1024518890397:web:b18f586f282218ce130574"
+    apiKey: "AIzaSyC2yaB4j2g-GlDGhUUMaFYnonIxuVHEOd0",
+    authDomain: "suomen-ilmailuliito.firebaseapp.com",
+    projectId: "suomen-ilmailuliito",
+    storageBucket: "suomen-ilmailuliito.appspot.com",
+    messagingSenderId: "1024518890397",
+    appId: "1:1024518890397:web:b18f586f282218ce130574"
 };
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
@@ -23,11 +23,11 @@ const auth = getAuth(app);
 
 // Initialize Analytics
 const analytics = (async () => {
-  if (typeof window !== 'undefined') {
-    const supported = await isSupported();
-    return supported ? getAnalytics(app) : null;
-  }
-  return null;
+    if (typeof window !== 'undefined') {
+        const supported = await isSupported();
+        return supported ? getAnalytics(app) : null;
+    }
+    return null;
 })();
 
-export { app, firestore, storage, auth, analytics };
+export {app, firestore, storage, auth, analytics};
