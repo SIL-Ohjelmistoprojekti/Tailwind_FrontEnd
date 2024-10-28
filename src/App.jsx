@@ -26,10 +26,10 @@ const App = () => {
                                 <div className="flex flex-col md:flex-row justify-start items-start w-full">
                                     {/* Vasemman laidan kolumni */}
                                     <div className="w-full md:w-1/6 md:mr-3 mb-4 md:mb-0">
-                                        <div id="current-news" className="mb-4">
+                                        <div id="current-news" className="mb-2">
                                             <CurrentNews/>
                                         </div>
-                                        <div>
+                                        <div className="text-center">
                                             <UnitToggle/>
                                         </div>
                                         <div id="current-weather">

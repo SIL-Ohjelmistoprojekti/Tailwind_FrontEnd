@@ -58,46 +58,47 @@ const Current = () => {
     };
 
     return (
-        <div id="current" className="container mx-auto p-4 bg-gray-100 rounded-lg shadow-lg max-w-sm text-left">
+        <div id="current" className="container mx-auto p-3 bg-gray-100 rounded-lg shadow-lg max-w-sm text-left">
             <h2 className="text-2xl font-bold mb-1 whitespace-nowrap text-center">Weather Now</h2>
             <p className="text-lg mb-1 text-left">{formatTime(measuredTime)}</p>
             <div className="flex flex-col gap-4 text-left">
                 <div>
-                    <p id="temperature" className="p-2 bg-blue-200 rounded-lg text-left mb-1">
-                        <strong>Temperature:</strong> {unit === 'metric' ? kelvinToCelsius(currentWeather.main.temp) : kelvinToFahrenheit(currentWeather.main.temp)} °{unit === 'metric' ? 'C' : 'F'}
+                    <p id="temperature" className="p-1 bg-blue-200 rounded-lg text-left mb-1">
+                        <strong>Temperature:</strong> <br/> {unit === 'metric' ? kelvinToCelsius(currentWeather.main.temp) : kelvinToFahrenheit(currentWeather.main.temp)} °{unit === 'metric' ? 'C' : 'F'}
                     </p>
-                    <p id="humidity" className="p-2 bg-blue-200 rounded-lg text-left mb-1">
-                        <strong>Humidity:</strong> {currentWeather.main.humidity} %
+                    <p id="humidity" className="p-1 bg-blue-200 rounded-lg text-left mb-1">
+                        <strong>Humidity:</strong> <br/> {currentWeather.main.humidity} %
                     </p>
-                    <p id="pressure" className="p-2 bg-blue-200 rounded-lg text-left whitespace-nowrap">
+                    <p id="pressure" className="p-1 bg-blue-200 rounded-lg text-left whitespace-nowrap">
                         <strong>Barometric Pressure:</strong> <br/> {currentWeather.main.pressure} hPa
                     </p>
                 </div>
 
                 <div>
                     <h3 className="text-xl font-semibold mb-1 text-left">Wind</h3>
-                    <p id="average_wind_speed" className="p-2 bg-blue-100 rounded-lg text-left mb-1">
+                    <p id="average_wind_speed" className="p-1 bg-blue-100 rounded-lg text-left mb-1 whitespace-nowrap">
                         <strong>Average Wind
-                            Speed:</strong> {unit === 'metric' ? windspeedToKmh(currentWeather.wind.speed) : windspeedToMph(currentWeather.wind.speed)} {unit === 'metric' ? 'km/h' : 'mph'}
+                            Speed:</strong>  <div>{unit === 'metric' ? windspeedToKmh(currentWeather.wind.speed) : windspeedToMph(currentWeather.wind.speed)} {unit === 'metric' ? 'km/h' : 'mph'}
+                            </div>
                     </p>
-                    <p id="max_wind_speed" className="p-2 bg-blue-100 rounded-lg text-left mb-1">
+                    <p id="max_wind_speed" className="p-1 bg-blue-100 rounded-lg text-left mb-1">
                         <strong>Wind
-                            Gust:</strong> {currentWeather.wind.gust ? (unit === 'metric' ? windspeedToKmh(currentWeather.wind.gust) : windspeedToMph(currentWeather.wind.gust)) : 'No data'} {unit === 'metric' ? 'km/h' : 'mph'}
+                            Gust:</strong> <br/>{currentWeather.wind.gust ? (unit === 'metric' ? windspeedToKmh(currentWeather.wind.gust) : windspeedToMph(currentWeather.wind.gust)) : 'No data'} {unit === 'metric' ? 'km/h' : 'mph'}
                     </p>
-                    <p id="wind_direction" className="p-2 bg-blue-100 rounded-lg text-left">
-                        <strong>Wind Direction:</strong> {currentWeather.wind.deg} °
+                    <p id="wind_direction" className="p-1 bg-blue-100 rounded-lg text-left">
+                        <strong>Wind Direction:</strong> <br/> {currentWeather.wind.deg} °
                     </p>
                 </div>
 
                 <div>
                     <h3 className="text-xl font-semibold mb-1 text-left">Cloudiness</h3>
-                    <p id="clouds" className="p-2 bg-blue-100 rounded-lg text-left">
-                        <strong>Cloudiness:</strong> {currentWeather.clouds.all} %
+                    <p id="clouds" className="p-1 bg-blue-100 rounded-lg text-left">
+                        <strong>Cloudiness:</strong> <br/>{currentWeather.clouds.all} %
                     </p>
                 </div>
 
                 <h3 className="text-xl font-semibold text-left">Aurinko</h3>
-                <div className=" font-semibold mb-2 text-left p-2 bg-blue-100 rounded-lg">
+                <div className=" font-semibold mb-2 text-left p-1 bg-blue-100 rounded-lg">
                     <Aurinko/>
                 </div>
             </div>
