@@ -1,0 +1,17 @@
+import React, {createContext, useState} from 'react';
+
+export const UnitContext = createContext();
+
+export const UnitProvider = ({children}) => {
+    const [unit, setUnit] = useState('metric'); // 'metric' for Celsius and km/h, 'imperial' for Fahrenheit and mph
+
+    const toggleUnit = () => {
+        setUnit((prevUnit) => (prevUnit === 'metric' ? 'imperial' : 'metric'));
+    };
+
+    return (
+        <UnitContext.Provider value={{unit, toggleUnit}}>
+            {children}
+        </UnitContext.Provider>
+    );
+};
