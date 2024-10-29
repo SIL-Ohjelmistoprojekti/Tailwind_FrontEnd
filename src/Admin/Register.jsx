@@ -24,11 +24,10 @@ const Register = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [reason, setReason] = useState('');
     const [message, setMessage] = useState('');
-    const [countdown, setCountdown] = useState(20); // Laskuri alkaa 20 sekunnista
+    const [countdown, setCountdown] = useState(20);
     const [apiKeys, setApiKeys] = useState(null);
-    const navigate = useNavigate(); // Uudelleenohjaus
+    const navigate = useNavigate();
 
-    // Haetaan API-avaimet Firestoresta
     useEffect(() => {
         const getApiKeys = async () => {
             const keys = await fetchApiKeys();
@@ -37,13 +36,11 @@ const Register = () => {
         getApiKeys();
     }, []);
 
-    // Email-validointi
     const validateEmail = (email) => {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(String(email).toLowerCase());
     };
 
-    // Lisää rekisteröintipyyntö Firestoreen adminille
     const addPendingRegistrationNotification = async () => {
         await setDoc(doc(firestore, 'pendingRegistrations', `notification_${Date.now()}`), {
             notification: 'New registration request received.',
@@ -51,25 +48,22 @@ const Register = () => {
         });
     };
 
-    // Laskurinii
     useEffect(() => {
         let timer;
         if (countdown > 0 && message.includes('Registration request sent')) {
             timer = setInterval(() => {
                 setCountdown((prevCountdown) => prevCountdown - 1);
-            }, 1000); // Vähennä sekunti joka sekunti
+            }, 1000);
         } else if (countdown === 0) {
-            navigate('/'); // Uudelleenohjaus, kun laskuri saavuttaa nollan
+            navigate('/');
         }
 
-        return () => clearInterval(timer); // Pysäytä intervalli komponentin purkautuessa
+        return () => clearInterval(timer);
     }, [countdown, message, navigate]);
 
-    // Käsittele rekisteröityminen
     const handleRegister = (e) => {
         e.preventDefault();
 
-        // sähköposti validointi
         if (!validateEmail(email)) {
             setMessage('Invalid email address.');
             return;
@@ -88,15 +82,14 @@ const Register = () => {
             reason,
         };
 
-        // Lähetä rekisteröintipyyntö EmailJS:n kautta
         emailjs.send(apiKeys.serviceId, apiKeys.templateId, templateParams, apiKeys.userId)
             .then(() => {
-                // Success reksiteröinti
-                setMessage('Registration request sent! Admin will process your request soon.');
-                addPendingRegistrationNotification(); // Lisää tieto Firestoreen
+                setMessage('Registration request sent! We will process your request shortly.');
+                addPendingRegistrationNotification();
+                setCountdown(20); // Reset countdown
             })
             .catch(() => {
-                setMessage('Error in registration. Try again.');
+                setMessage('Error in registration. Please try again.');
             });
 
         setFirstName('');
@@ -158,18 +151,14 @@ const Register = () => {
 
                 {message && (
                     <div className="mt-4 text-center">
-                        <p className="text-green-500">{message}</p>
-                        {/* Laskuriii */}
-                        {message.includes('Rekisteröintipyyntö lähetetty') && (
+                        <p className="text-green-500 text-lg font-semibold">{message}</p>
+                        {message.includes('Registration request sent') && (
                             <>
-                                <p className="mt-2">We will get back to you as soon as possible. Thank you for
-                                    registering!</p>
+                                <p className="mt-2 text-sm text-gray-600">We will get back to you as soon as possible. Thank you for registering!</p>
                                 <p className="mt-2">
-                                    You will be redirected to the homepage in <strong>{countdown} seconds</strong>. Or
-                                    you can also return{' '}
+                                    Redirecting in <strong>{countdown} seconds</strong>. Or return{' '}
                                     <a href="/" className="text-blue-600 underline">here</a>.
                                 </p>
-
                             </>
                         )}
                     </div>
