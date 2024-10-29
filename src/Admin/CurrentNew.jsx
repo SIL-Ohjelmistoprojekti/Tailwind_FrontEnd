@@ -32,7 +32,7 @@ const CurrentNews = () => {
     const formatDate = (timestamp) => {
         if (!timestamp) return '';
         const date = timestamp.toDate(); // Muunna Firestore Timestamp Date-objektiksi
-        return date.toLocaleString('fi-FI', {
+        return date.toLocaleString('en-FI', {
             day: 'numeric',
             month: 'numeric',
             year: 'numeric',
@@ -42,12 +42,12 @@ const CurrentNews = () => {
     };
 
     return (
-        <div className="bg-blue-100 p-4 rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold mb-2">Recent information:</h2>
+        <div className="bg-blue-100 p-3 rounded-lg shadow-lg">
+            <h2 className="text-xl font-bold mb-2 whitespace-nowrap ">Recent information:</h2>
             <p>{news || 'No recent information at this current time.'}</p>
             {timestamp && (
                 <p className="text-sm text-gray-600 mt-2">
-                    Updated on: {formatDate(timestamp)}
+                    Updated on: <br/> {formatDate(timestamp)}
                 </p>
             )}
         </div>
