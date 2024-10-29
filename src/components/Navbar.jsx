@@ -20,14 +20,14 @@ const Navbar = () => {
         <div className="relative md:hidden z-50"> {/* Piilotetaan navbar suuremmilla näytöillä ja asetetaan z-index */}
             <div className="fixed top-0 left-0 p-4 z-50"> {/* Asetetaan navbar vasemmalle ylös ja lisätään z-index */}
                 <button onClick={toggleMenu} className="text-3xl">
-                    ☰ {/* Hamburger ikoni */}
+                    ☰ {/* Hamburger icon */}
                 </button>
             </div>
             {isOpen && (
                 <div className="fixed inset-0 bg-white w-1/2 h-full shadow-lg z-50 transition-transform duration-300">
                     <div className="flex justify-end p-4">
                         <button onClick={closeMenu} className="text-3xl">
-                            × {/* Ruksi ikoni */}
+                            × {/* X icon */}
                         </button>
                     </div>
                     <ul className="list-none p-0">

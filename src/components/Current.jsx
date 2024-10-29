@@ -97,7 +97,7 @@ const Current = () => {
                     </p>
                 </div>
 
-                <h3 className="text-xl font-semibold text-left">Aurinko</h3>
+                <h3 className="text-xl font-semibold text-left">Sun</h3>
                 <div className=" font-semibold mb-2 text-left p-1 bg-blue-100 rounded-lg">
                     <Aurinko/>
                 </div>

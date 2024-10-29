@@ -32,7 +32,7 @@ const Admin = () => {
                 }));
                 setPendingMessages(messages);
             } catch (error) {
-                console.error('Virhe haettaessa viestejä:', error);
+                console.error('Virhe haettaessa viestejä: - ', error);
             } finally {
                 setLoading(false);
             }
@@ -47,14 +47,14 @@ const Admin = () => {
             await deleteDoc(doc(firestore, 'pendingRegistrations', id));
             setPendingMessages(pendingMessages.filter((message) => message.id !== id));
         } catch (error) {
-            console.error('Virhe viestin poistossa:', error);
+            console.error('Virhe viestin poistossa: - There was en error deleting the message', error);
         }
     };
 
     // Tallenna uutiset Firestoreen
     const handleSave = async () => {
         if (!news.trim()) {
-            alert('Kirjoita jotain sisältöä.');
+            alert('Kirjoita jotain sisältöä. - Write something to be saved');
             return;
         }
         setLoading(true);
@@ -63,11 +63,11 @@ const Admin = () => {
                 content: news,
                 timestamp: serverTimestamp(),
             });
-            alert('Ajankohtainen tieto tallennettu onnistuneesti!');
+            alert('Ajankohtainen tieto tallennettu onnistuneesti! - Recent information saved succesfully!');
             setNews('');
         } catch (error) {
-            console.error('Virhe tallennuksessa:', error);
-            alert('Tietojen tallennus epäonnistui.');
+            console.error('Virhe tallennuksessa: - Error while saving', error);
+            alert('Failed to save data. - ');
         } finally {
             setLoading(false);
         }
@@ -77,11 +77,11 @@ const Admin = () => {
     const handleLogout = () => {
         signOut(auth)
             .then(() => {
-                alert('Olet kirjautunut ulos.');
+                alert('You have signed out.');
                 navigate('/');
             })
             .catch((error) => {
-                console.error('Virhe uloskirjautumisessa:', error);
+                console.error('Error while signing out', error);
             });
     };
 
@@ -91,14 +91,14 @@ const Admin = () => {
             <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8 flex-grow">
                 <h2 className="text-2xl font-bold mb-4">Admin Panel</h2>
                 <label className="block mb-2 text-lg font-medium text-gray-700">
-                    Ajankohtainen tieto (esim. sää):
+                    Recent information  (for example, weather):
                 </label>
                 <textarea
                     value={news}
                     onChange={(e) => setNews(e.target.value)}
                     className="w-full p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
                     rows="4"
-                    placeholder="Kirjoita ajankohtainen tieto..."
+                    placeholder="Give recent information..."
                 />
                 <button
                     onClick={handleSave}
@@ -107,26 +107,26 @@ const Admin = () => {
                     }`}
                     disabled={loading}
                 >
-                    {loading ? 'Tallennetaan...' : 'Tallenna'}
+                    {loading ? 'Saving...' : 'Save'}
                 </button>
 
                 <button
                     onClick={handleLogout}
                     className="mt-4 w-full py-2 px-4 bg-red-600 text-white rounded-lg"
                 >
-                    Kirjaudu ulos
+                    Log out
                 </button>
             </div>
 
             {/* Sivupalkki: Uudet rekisteröintipyynnöt */}
             <div className="w-1/3 bg-gray-50 p-4 shadow-lg rounded-lg ml-4">
-                <h3 className="text-xl font-bold mb-4">Uudet rekisteröintipyynnöt</h3>
+                <h3 className="text-xl font-bold mb-4">New registration requests</h3>
                 {loading ? (
-                    <p>Ladataan...</p>
+                    <p>Loading...</p>
                 ) : (
                     <ul>
                         {pendingMessages.length === 0 ? (
-                            <p>Ei uusia rekisteröintipyyntöjä.</p>
+                            <p>No new registration requests.</p>
                         ) : (
                             pendingMessages.map((message) => (
                                 <li key={message.id} className="flex justify-between items-center mb-4">
@@ -135,7 +135,7 @@ const Admin = () => {
                                         onClick={() => handleDeleteMessage(message.id)}
                                         className="bg-red-500 text-white py-1 px-3 rounded"
                                     >
-                                        Poista
+                                        Delete
                                     </button>
                                 </li>
                             ))

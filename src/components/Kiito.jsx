@@ -6,84 +6,82 @@ import {FaChevronDown, FaChevronUp, FaTimes} from 'react-icons/fa'; // React iko
 // Rakenne kiitoradoisssa
 const runwaysData = {
     "Hyvinkää": [
-        {direction: '04/22', length: 1260, width: 18, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '12/30', length: 790, width: 15, surface: 'asfaltti/sora', details: "työn alla.. polttiane.."},
+        {direction: '04/22', length: 1260, width: 18, surface: 'asphalt'},
+        {direction: '12/30', length: 790, width: 15, surface: 'asphalt/gravel'},
     ],
     "Nummela": [
-        {direction: '04/22', length: 1200, width: 20, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '09/27', length: 580, width: 8, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '04/22', length: 1200, width: 20, surface: 'asphalt'},
+        {direction: '09/27', length: 580, width: 8, surface: 'asphalt'},
     ],
     "Räyskälä": [
-        {direction: '08L/26R', length: 800, width: 10, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '08R/26L', length: 1020, width: 18, surface: 'asfaltti/sora', details: "työn alla.. polttiane.."},
-        {direction: '12L/30R', length: 1270, width: 18, surface: 'asfaltti/sora', details: "työn alla.. polttiane.."},
-        {direction: '12R/30L', length: 480, width: 10, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '08L/26R', length: 800, width: 10, surface: 'asphalt'},
+        {direction: '08R/26L', length: 1020, width: 18, surface: 'asphalt/gravel'},
+        {direction: '12L/30R', length: 1270, width: 18, surface: 'asphalt/gravel'},
+        {direction: '12R/30L', length: 480, width: 10, surface: 'asphalt'},
     ],
     "Helsinki-Vantaa": [
-        {direction: '04R/22L', length: 4000, width: 60, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '04L/22R', length: 3000, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '12/30', length: 3600, width: 60, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '04R/22L', length: 4000, width: 60, surface: 'asphalt'},
+        {direction: '04L/22R', length: 3000, width: 45, surface: 'asphalt'},
+        {direction: '12/30', length: 3600, width: 60, surface: 'asphalt'},
     ],
     "Oulu": [
-        {direction: '12/30', length: 3000, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '03/21', length: 2500, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '15/33', length: 2500, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '12/30', length: 3000, width: 45, surface: 'asphalt'},
+        {direction: '03/21', length: 2500, width: 45, surface: 'asphalt'},
+        {direction: '15/33', length: 2500, width: 45, surface: 'asphalt'},
     ],
     "Tampere-Pirkkala": [
-        {direction: '12/30', length: 2500, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '03/21', length: 3200, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '15/33', length: 2500, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '12/30', length: 2500, width: 45, surface: 'asphalt'},
+        {direction: '03/21', length: 3200, width: 45, surface: 'asphalt'},
+        {direction: '15/33', length: 2500, width: 45, surface: 'asphalt'},
     ],
     "Rovaniemi": [
-        {direction: '07/25', length: 2500, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '01/19', length: 2500, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '13/31', length: 2500, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '07/25', length: 2500, width: 45, surface: 'asphalt'},
+        {direction: '01/19', length: 2500, width: 45, surface: 'asphalt'},
+        {direction: '13/31', length: 2500, width: 45, surface: 'asphalt'},
     ],
     "Lappeenranta": [
-        {direction: '15/33', length: 2700, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '09/27', length: 1800, width: 30, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '12/30', length: 1200, width: 20, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '15/33', length: 2700, width: 45, surface: 'asphalt'},
+        {direction: '09/27', length: 1800, width: 30, surface: 'asphalt'},
+        {direction: '12/30', length: 1200, width: 20, surface: 'asphalt'},
     ],
     "Helsinki Malmi": [
         {
             direction: '18/36',
             length: 1280,
             width: 30,
-            surface: 'asfaltti (suljettu)',
-            details: "työn alla.. polttiane.."
+            surface: 'asphalt (closed)',
         },
         {
             direction: '09/27',
             length: 1024,
             width: 30,
-            surface: 'asfaltti (suljettu)',
-            details: "työn alla.. polttiane.."
+            surface: 'asphalt (closed)',
         },
     ],
     "Pori": [
-        {direction: '12/30', length: 2999, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '12/30', length: 2999, width: 45, surface: 'asphalt'},
     ],
     "Kokkola": [
-        {direction: '01/19', length: 2500, width: 60, surface: 'asfaltti', details: "työn alla.. polttiane.."},
-        {direction: '11/29', length: 700, width: 20, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '01/19', length: 2500, width: 60, surface: 'asphalt'},
+        {direction: '11/29', length: 700, width: 20, surface: 'asphalt'},
     ],
     "Jyväskylä": [
-        {direction: '13/31', length: 2600, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '13/31', length: 2600, width: 45, surface: 'asphalt'},
     ],
     "Seinäjoki": [
-        {direction: '13/31', length: 2300, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '13/31', length: 2300, width: 45, surface: 'asphalt'},
     ],
     "Lahti": [
-        {direction: '08/26', length: 1500, width: 30, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '08/26', length: 1500, width: 30, surface: 'asphalt'},
     ],
     "Kuopio": [
-        {direction: '16/34', length: 2600, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '16/34', length: 2600, width: 45, surface: 'asphalt'},
     ],
     "Vaasa": [
-        {direction: '12/30', length: 3000, width: 45, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '12/30', length: 3000, width: 45, surface: 'asphalt'},
     ],
     "Mariehamn": [
-        {direction: '10/28', length: 1800, width: 30, surface: 'asfaltti', details: "työn alla.. polttiane.."},
+        {direction: '10/28', length: 1800, width: 30, surface: 'asphalt'},
     ],
 };
 
@@ -319,9 +317,8 @@ const AirportRunways = () => {
                 {runwaysData[currentAirport].map((runway, index) => (
                     <div key={index} className="text-center mb-2">
                         <div className="font-bold">Direction {runway.direction}</div>
-                        <div>Length: {runway.length} m, Leveys: {runway.width} m</div>
+                        <div>Length: {runway.length} m, Width: {runway.width} m</div>
                         <div>Surface: {runway.surface}</div>
-                        <div>Additional information: {runway.details} </div>
                     </div>
                 ))}
             </div>

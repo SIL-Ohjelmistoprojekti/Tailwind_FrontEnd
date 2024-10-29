@@ -18,10 +18,10 @@ const CurrentNews = () => {
                     setNews(data.content);
                     setTimestamp(data.timestamp);
                 } else {
-                    console.log('Dokumenttia ei löytynyt!');
+                    console.log('Document was not found!');
                 }
             } catch (error) {
-                console.error('Virhe haettaessa uutisia:', error);
+                console.error('Error finding information', error);
             }
         };
 
@@ -43,11 +43,11 @@ const CurrentNews = () => {
 
     return (
         <div className="bg-blue-100 p-4 rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold mb-2">Ajankohtaista:</h2>
-            <p>{news || 'Ei ajankohtaista tietoa tällä hetkellä.'}</p>
+            <h2 className="text-xl font-bold mb-2">Recent information:</h2>
+            <p>{news || 'No recent information at this current time.'}</p>
             {timestamp && (
                 <p className="text-sm text-gray-600 mt-2">
-                    Päivitetty: {formatDate(timestamp)}
+                    Updated on: {formatDate(timestamp)}
                 </p>
             )}
         </div>
