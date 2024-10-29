@@ -1,9 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {UnitContext} from '../context/UnitContext.jsx';
+import React, { useContext, useEffect, useState } from 'react';
+import { UnitContext } from '../context/UnitContext.jsx';
 import Aurinko from './Aurinko';
 
 const Current = () => {
-    const {unit} = useContext(UnitContext);
+    const { unit } = useContext(UnitContext);
     const [currentWeather, setCurrentWeather] = useState({});
     const [measuredTime, setMeasuredTime] = useState(new Date());
 
@@ -15,7 +15,7 @@ const Current = () => {
     useEffect(() => {
         runEverySecond();
         const interval = setInterval(runEverySecond, 1000);
-
+ 
         return () => clearInterval(interval);
     }, []);
 
@@ -38,15 +38,14 @@ const Current = () => {
         return () => clearInterval(weatherInterval);
     }, []);
 
-    // Jos data ei ole vielä ladattu, näytetään "Ladataan..." viesti
     if (!currentWeather.main || !currentWeather.wind || !currentWeather.clouds) {
         return <div>Ladataan säätietoja...</div>;
     }
 
     const kelvinToCelsius = (temp) => (temp - 273.15).toFixed(2);
     const kelvinToFahrenheit = (temp) => (temp * 9 / 5 - 459.67).toFixed(2);
-    const windspeedToKmh = (speed) => (speed * 3.6).toFixed(2);
-    const windspeedToMph = (speed) => (speed * 2.237).toFixed(2);
+    
+    const windspeedToKnots = (speed) => (speed * 1.94384).toFixed(1);
 
     const formatTime = (date) => {
         const day = String(date.getDate()).padStart(2, "0");
@@ -77,13 +76,12 @@ const Current = () => {
                 <div>
                     <h3 className="text-xl font-semibold mb-1 text-left">Wind</h3>
                     <p id="average_wind_speed" className="p-1 bg-blue-100 rounded-lg text-left mb-1 whitespace-nowrap">
-                        <strong>Average Wind
-                            Speed:</strong>  <div>{unit === 'metric' ? windspeedToKmh(currentWeather.wind.speed) : windspeedToMph(currentWeather.wind.speed)} {unit === 'metric' ? 'km/h' : 'mph'}
-                            </div>
+                        <strong>Average Wind Speed:</strong> <br/> 
+                        {unit === 'metric' ? `${currentWeather.wind.speed.toFixed(1)} m/s` : `${windspeedToKnots(currentWeather.wind.speed)} kn`}
                     </p>
                     <p id="max_wind_speed" className="p-1 bg-blue-100 rounded-lg text-left mb-1">
-                        <strong>Wind
-                            Gust:</strong> <br/>{currentWeather.wind.gust ? (unit === 'metric' ? windspeedToKmh(currentWeather.wind.gust) : windspeedToMph(currentWeather.wind.gust)) : 'No data'} {unit === 'metric' ? 'km/h' : 'mph'}
+                        <strong>Wind Gust:</strong> <br/> 
+                        {unit === 'metric' ? `${currentWeather.wind.gust.toFixed(1)} m/s` : `${windspeedToKnots(currentWeather.wind.gust)} kn`}
                     </p>
                     <p id="wind_direction" className="p-1 bg-blue-100 rounded-lg text-left">
                         <strong>Wind Direction:</strong> <br/> {currentWeather.wind.deg} °
@@ -98,11 +96,12 @@ const Current = () => {
                 </div>
 
                 <h3 className="text-xl font-semibold text-left">Sun</h3>
-                <div className=" font-semibold mb-2 text-left p-1 bg-blue-100 rounded-lg">
-                    <Aurinko/>
+                <div className="font-semibold mb-2 text-left p-1 bg-blue-100 rounded-lg">
+                    <Aurinko />
                 </div>
             </div>
-        </div>);
+        </div>
+    );
 };
 
 export default Current;
