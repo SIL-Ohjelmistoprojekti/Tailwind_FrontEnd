@@ -65,16 +65,27 @@ const Metar = () => {
             }
         });
 
+        const parseTemperature = (temp) => {
+            // Negative temperatures M => minus (-)
+            // Can remove if needed :-)
+            if (temp.startsWith('M')) {
+                return (-parseFloat(temp.slice(1))).toFixed(2);
+            }
+            return parseFloat(temp).toFixed(2);
+        };
+
         const calculateRelativeHumidity = (temp, dew) => {
-            const tempK = parseFloat(temp) + 273.15;
-            const dewK = parseFloat(dew) + 273.15;
+            const tempK = temp + 273.15;
+            const dewK = dew + 273.15;
             return Math.round(
                 100 * (Math.exp((17.625 * dew) / (243.04 + dew)) / Math.exp((17.625 * temp) / (243.04 + temp)))
             );
         };
 
-        const humidity = temperature !== 'N/A' && dewPoint !== 'N/A'
-            ? calculateRelativeHumidity(parseFloat(temperature), parseFloat(dewPoint))
+        const parsedTemperature = temperature !== 'N/A' ? parseTemperature(temperature) : 'N/A';
+        const parsedDewPoint = dewPoint !== 'N/A' ? parseTemperature(dewPoint) : 'N/A';
+        const humidity = parsedTemperature !== 'N/A' && parsedDewPoint !== 'N/A'
+            ? calculateRelativeHumidity(parseFloat(parsedTemperature), parseFloat(parsedDewPoint))
             : 'N/A';
 
         let barometer = 'N/A';
@@ -119,8 +130,8 @@ const Metar = () => {
         return {
             station: {name: parts[0]},
             raw_text: latestMetar,
-            temperature: {celsius: temperature},
-            dew_point: {celsius: dewPoint},
+            temperature: {celsius: parsedTemperature},
+            dew_point: {celsius: parsedDewPoint},
             humidity: {percent: humidity},
             wind: {
                 direction: windDirection,
