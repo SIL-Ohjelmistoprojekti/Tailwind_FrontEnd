@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Link} from 'react-scroll';
 import '../index.css';
 import './WeatherForecast.jsx';
-import './Kiito';
+import './Runway.jsx';
 import './CurrentWeather.jsx';
 
 const Navbar = () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import WeatherForecast from "./components/WeatherForecast.jsx";
 import CurrentWeather from "./components/CurrentWeather.jsx";
-import Kiito from './components/Kiito.jsx';
+import Kiito from './components/Runway.jsx';
 import Metar from './components/Metar.jsx';
 import Admin from './admin/admin.jsx';
 import Login from './admin/Login.jsx';

@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { UnitContext } from '../context/UnitContext.jsx';
+import React, {useContext} from 'react';
+import {UnitContext} from '../context/UnitContext.jsx';
 
 const UnitToggle = () => {
     const { unit, toggleUnit } = useContext(UnitContext);

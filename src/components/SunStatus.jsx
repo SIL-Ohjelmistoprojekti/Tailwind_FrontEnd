@@ -18,7 +18,7 @@ const fetchSunriseSunset = async (latitude, longitude) => {
     };
 };
 
-const Aurinko = () => {
+const SunStatus = () => {
     const [sunriseSunsetData, setSunriseSunsetData] = React.useState({});
 
     React.useEffect(() => {
@@ -50,9 +50,9 @@ const Aurinko = () => {
 };
 
 // Export the component
-export default Aurinko;
+export default SunStatus;
 
 // Render the component
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement); // Create a root
-root.render(<Aurinko/>); // Use the new render method
+root.render(<SunStatus/>); // Use the new render method

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {UnitContext} from '../context/UnitContext.jsx';
-import Aurinko from './Aurinko';
+import SunStatus from './SunStatus.jsx';
 
 const CurrentWeather = () => {
     const {unit} = useContext(UnitContext);
@@ -98,7 +98,7 @@ const CurrentWeather = () => {
 
                 <h3 className="text-xl font-semibold text-left">Sun</h3>
                 <div className="font-semibold mb-2 text-left p-1 bg-blue-100 rounded-lg">
-                    <Aurinko/>
+                    <SunStatus/>
                 </div>
             </div>
         </div>
