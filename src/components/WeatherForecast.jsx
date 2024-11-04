@@ -4,7 +4,7 @@ import '../index.css';
 import {UnitContext} from '../context/UnitContext.jsx';
 
 
-const SaaEnnuste = () => {
+const WeatherForecast = () => {
     // Tilamuuttujat säilyttävät säädataa ja komponentin tilaa
     const {unit} = useContext(UnitContext);
     const [weatherData, setWeatherData] = useState([]); // Säilyttää haetun säädatan
@@ -202,7 +202,7 @@ const SaaEnnuste = () => {
         // Convert to meters per second
         return (speed / 3.6).toFixed(1);
     };
-    
+
 
     return (
         <div className="container mx-auto flex justify-end">
@@ -447,4 +447,4 @@ const SaaEnnuste = () => {
     );
 };
 
-export default SaaEnnuste;
+export default WeatherForecast;

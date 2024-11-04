@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Link} from 'react-scroll';
 import '../index.css';
-import './SaaEnnuste';
+import './WeatherForecast.jsx';
 import './Kiito';
-import './Current';
+import './CurrentWeather.jsx';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);

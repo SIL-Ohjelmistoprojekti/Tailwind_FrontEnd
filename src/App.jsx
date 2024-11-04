@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import SaaEnnuste from './components/SaaEnnuste.jsx';
-import Current from './components/Current.jsx';
+import WeatherForecast from './components/WeatherForecast.jsx';
+import CurrentWeather from './components/CurrentWeather.jsx';
 import Kiito from './components/Kiito.jsx';
 import Metar from './components/Metar.jsx';
 import Admin from './admin/admin.jsx';
@@ -33,7 +33,7 @@ const App = () => {
                                             <UnitToggle/>
                                         </div>
                                         <div id="current-weather">
-                                            <Current/>
+                                            <CurrentWeather/>
                                         </div>
                                     </div>
                                     <div id="runways" className="mb-2 md:mb-0 md:ml-10 w-full md:w-1/6">
@@ -46,7 +46,7 @@ const App = () => {
 
                                     <div id="forecast" className="w-full md:flex-grow">
                                         <WindRecharts/>
-                                        <SaaEnnuste/>
+                                        <WeatherForecast/>
                                     </div>
                                 </div>
                             }

@@ -91,7 +91,7 @@ const Admin = () => {
             <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8 flex-grow">
                 <h2 className="text-2xl font-bold mb-4">Admin Panel</h2>
                 <label className="block mb-2 text-lg font-medium text-gray-700">
-                    Recent information  (for example, weather):
+                    Recent information (for example, weather):
                 </label>
                 <textarea
                     value={news}

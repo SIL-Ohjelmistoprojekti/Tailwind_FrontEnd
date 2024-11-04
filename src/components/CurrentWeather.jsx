@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { UnitContext } from '../context/UnitContext.jsx';
+import React, {useContext, useEffect, useState} from 'react';
+import {UnitContext} from '../context/UnitContext.jsx';
 import Aurinko from './Aurinko';
 
-const Current = () => {
-    const { unit } = useContext(UnitContext);
+const CurrentWeather = () => {
+    const {unit} = useContext(UnitContext);
     const [currentWeather, setCurrentWeather] = useState({});
     const [measuredTime, setMeasuredTime] = useState(new Date());
 
@@ -15,7 +15,7 @@ const Current = () => {
     useEffect(() => {
         runEverySecond();
         const interval = setInterval(runEverySecond, 1000);
- 
+
         return () => clearInterval(interval);
     }, []);
 
@@ -44,7 +44,7 @@ const Current = () => {
 
     const kelvinToCelsius = (temp) => (temp - 273.15).toFixed(2);
     const kelvinToFahrenheit = (temp) => (temp * 9 / 5 - 459.67).toFixed(2);
-    
+
     const windspeedToKnots = (speed) => (speed * 1.94384).toFixed(1);
 
     const formatTime = (date) => {
@@ -63,7 +63,8 @@ const Current = () => {
             <div className="flex flex-col gap-4 text-left">
                 <div>
                     <p id="temperature" className="p-1 bg-blue-200 rounded-lg text-left mb-1">
-                        <strong>Temperature:</strong> <br/> {unit === 'metric' ? kelvinToCelsius(currentWeather.main.temp) : kelvinToFahrenheit(currentWeather.main.temp)} °{unit === 'metric' ? 'C' : 'F'}
+                        <strong>Temperature:</strong>
+                        <br/> {unit === 'metric' ? kelvinToCelsius(currentWeather.main.temp) : kelvinToFahrenheit(currentWeather.main.temp)} °{unit === 'metric' ? 'C' : 'F'}
                     </p>
                     <p id="humidity" className="p-1 bg-blue-200 rounded-lg text-left mb-1">
                         <strong>Humidity:</strong> <br/> {currentWeather.main.humidity} %
@@ -76,11 +77,11 @@ const Current = () => {
                 <div>
                     <h3 className="text-xl font-semibold mb-1 text-left">Wind</h3>
                     <p id="average_wind_speed" className="p-1 bg-blue-100 rounded-lg text-left mb-1 whitespace-nowrap">
-                        <strong>Average Wind Speed:</strong> <br/> 
+                        <strong>Average Wind Speed:</strong> <br/>
                         {unit === 'metric' ? `${currentWeather.wind.speed.toFixed(1)} m/s` : `${windspeedToKnots(currentWeather.wind.speed)} kn`}
                     </p>
                     <p id="max_wind_speed" className="p-1 bg-blue-100 rounded-lg text-left mb-1">
-                        <strong>Wind Gust:</strong> <br/> 
+                        <strong>Wind Gust:</strong> <br/>
                         {unit === 'metric' ? `${currentWeather.wind.gust.toFixed(1)} m/s` : `${windspeedToKnots(currentWeather.wind.gust)} kn`}
                     </p>
                     <p id="wind_direction" className="p-1 bg-blue-100 rounded-lg text-left">
@@ -97,12 +98,12 @@ const Current = () => {
 
                 <h3 className="text-xl font-semibold text-left">Sun</h3>
                 <div className="font-semibold mb-2 text-left p-1 bg-blue-100 rounded-lg">
-                    <Aurinko />
+                    <Aurinko/>
                 </div>
             </div>
         </div>
     );
 };
 
-export default Current;
+export default CurrentWeather;
 

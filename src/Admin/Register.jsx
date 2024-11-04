@@ -154,7 +154,8 @@ const Register = () => {
                         <p className="text-green-500 text-lg font-semibold">{message}</p>
                         {message.includes('Registration request sent') && (
                             <>
-                                <p className="mt-2 text-sm text-gray-600">We will get back to you as soon as possible. Thank you for registering!</p>
+                                <p className="mt-2 text-sm text-gray-600">We will get back to you as soon as possible.
+                                    Thank you for registering!</p>
                                 <p className="mt-2">
                                     Redirecting in <strong>{countdown} seconds</strong>. Or return{' '}
                                     <a href="/" className="text-blue-600 underline">here</a>.
