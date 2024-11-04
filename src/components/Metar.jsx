@@ -1,7 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import '../index.css';
+import {UnitContext} from '../context/UnitContext.jsx';
 
 const Metar = () => {
+    const {unit} = useContext(UnitContext);
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
 
@@ -123,6 +125,7 @@ const Metar = () => {
             wind: {
                 direction: windDirection,
                 speed_kph: windSpeedKph,
+                speed_kt: windSpeedKT,
                 unit: 'kph',
             },
             visibility: {text: visibilityText},
@@ -134,6 +137,9 @@ const Metar = () => {
             change_description: changeCode,
         };
     };
+
+    const celsiusToFahrenheit = (temp) => (temp * 9 / 5 + 32).toFixed(2);
+    const kphToKnots = (speed) => (speed / 1.852).toFixed(2);
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -167,10 +173,16 @@ const Metar = () => {
             </div>
             <p>{kol}</p>
             <div className="space-y-2">
-                <p><strong>Temperature: <br/></strong> {data.temperature.celsius}°C</p>
-                <p><strong>Dew Point: <br/></strong> {data.dew_point.celsius}°C</p>
+                <p>
+                    <strong>Temperature: <br/></strong> {unit === 'metric' ? `${data.temperature.celsius}°C` : `${celsiusToFahrenheit(data.temperature.celsius)}°F`}
+                </p>
+                <p><strong>Dew
+                    Point: <br/></strong> {unit === 'metric' ? `${data.dew_point.celsius}°C` : `${celsiusToFahrenheit(data.dew_point.celsius)}°F`}
+                </p>
                 <p><strong>Humidity: <br/></strong> {data.humidity.percent}%</p>
-                <p><strong>Wind Speed: <br/></strong> {data.wind.speed_kph} kph</p>
+                <p><strong>Wind
+                    Speed: <br/></strong> {unit === 'metric' ? `${data.wind.speed_kph} kph` : `${kphToKnots(data.wind.speed_kph)} kn`}
+                </p>
                 <p><strong>Wind Direction: <br/></strong> {data.wind.direction}°</p>
                 <p><strong>Visibility: <br/></strong> {data.visibility.text}</p>
                 <p><strong>Clouds:<br/></strong> {data.cloud_cover.length > 0 ? data.cloud_cover.join(', ') : 'N/A'}</p>
@@ -186,6 +198,6 @@ const Metar = () => {
             </div>
         </div>
     );
-};
+}
 
 export default Metar;
