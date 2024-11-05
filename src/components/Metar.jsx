@@ -66,8 +66,6 @@ const Metar = () => {
         });
 
         const parseTemperature = (temp) => {
-            // Negative temperatures M => minus (-)
-            // Can remove if needed :-)
             if (temp.startsWith('M')) {
                 return (-parseFloat(temp.slice(1))).toFixed(2);
             }
@@ -97,7 +95,7 @@ const Metar = () => {
 
         const windDirection = parts[2] ? parts[2].slice(0, 3) : 'N/A';
         const windSpeedKT = parts[2] ? parseInt(parts[2].slice(3, 5), 10) : 'N/A';
-        const windSpeedKph = windSpeedKT !== 'N/A' ? (windSpeedKT * 1.852).toFixed(2) : 'N/A';
+        const windSpeedMs = windSpeedKT !== 'N/A' ? (windSpeedKT * 0.51444).toFixed(1) : 'N/A';
 
         const visibility = parts[3] || 'N/A';
         const visibilityText = parseInt(visibility, 10) >= 9999 ? '10 km or more' : `${visibility} meters`;
@@ -135,9 +133,8 @@ const Metar = () => {
             humidity: {percent: humidity},
             wind: {
                 direction: windDirection,
-                speed_kph: windSpeedKph,
+                speed_ms: windSpeedMs,
                 speed_kt: windSpeedKT,
-                unit: 'kph',
             },
             visibility: {text: visibilityText},
             barometer: {hpa: barometer},
@@ -150,7 +147,6 @@ const Metar = () => {
     };
 
     const celsiusToFahrenheit = (temp) => (temp * 9 / 5 + 32).toFixed(2);
-    const kphToKnots = (speed) => (speed / 1.852).toFixed(2);
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -187,13 +183,11 @@ const Metar = () => {
                 <p>
                     <strong>Temperature: <br/></strong> {unit === 'metric' ? `${data.temperature.celsius}°C` : `${celsiusToFahrenheit(data.temperature.celsius)}°F`}
                 </p>
-                <p><strong>Dew
-                    Point: <br/></strong> {unit === 'metric' ? `${data.dew_point.celsius}°C` : `${celsiusToFahrenheit(data.dew_point.celsius)}°F`}
+                <p>
+                    <strong>Dew Point: <br/></strong> {unit === 'metric' ? `${data.dew_point.celsius}°C` : `${celsiusToFahrenheit(data.dew_point.celsius)}°F`}
                 </p>
                 <p><strong>Humidity: <br/></strong> {data.humidity.percent}%</p>
-                <p><strong>Wind
-                    Speed: <br/></strong> {unit === 'metric' ? `${data.wind.speed_kph} kph` : `${kphToKnots(data.wind.speed_kph)} kn`}
-                </p>
+                <p><strong>Wind Speed: <br/></strong> {unit === 'metric' ? `${data.wind.speed_ms} m/s` : `${data.wind.speed_kt} kn`}</p>
                 <p><strong>Wind Direction: <br/></strong> {data.wind.direction}°</p>
                 <p><strong>Visibility: <br/></strong> {data.visibility.text}</p>
                 <p><strong>Clouds:<br/></strong> {data.cloud_cover.length > 0 ? data.cloud_cover.join(', ') : 'N/A'}</p>
@@ -212,3 +206,4 @@ const Metar = () => {
 }
 
 export default Metar;
+
