@@ -85,49 +85,49 @@ This will launch the application in development mode, accessible at ```http://lo
 
 ## Available Components
 
-1. ### SunStatus
+### SunStatus
 
 File: ```SunStatus.jsx```
 
 The ```SunStatus``` component is responsible for displaying the current position of the sun, including sunrise and sunset times. It dynamically updates based on real-time data, providing users with a visual representation of the sun's location throughout the day.
 
-2. ### Current
+### Current
 
 File: ```CurrentWeather.jsx``` 
 
 The ```CurrentWeather``` component displays real-time weather data such as temperature, humidity, wind speed, and visibility. It fetches this data from the backend and provides an overview of the current conditions at a specified location (airport or city).
 
-3. ### AirportRunways
+### AirportRunways
 
 File: ```AiportRunways.jsx```
 
 The ```AirportRunways``` component visualizes runway data for airports, including length, direction, and surface type. This data is essential for pilots, air traffic controllers, and ground staff to assess runway suitability for takeoffs and landings, especially in varying weather conditions.
 
-4. ### Metar
+### Metar
 
 File: ```Metar.jsx```
 
 The ```Metar``` component is designed to parse and display METAR reports, which are crucial for aviation. These reports include essential weather information like wind speed, direction, temperature, and visibility at specific airports. It formats the METAR data into a human-readable format.
 
-5. ### WeatherForecast
+### WeatherForecast
 
 File: ```WeatherForecast.jsx```
 
 The ```WeatherForecast``` component is responsible for showing weather forecasts. It uses data from the backend to display predictions on temperature, precipitation, wind, and other key metrics for both short-term and long-term forecasting.
 
-6. ### UnitToggle
+### UnitToggle
 
 File: ```UnitToggle.jsx```
 
 The ```UnitToggle``` component allows users to switch between different units of measurement, such as Celsius/Fahrenheit for temperature and kilometers/miles for visibility. This adds flexibility to the user experience, catering to both metric and imperial system preferences.
 
-7. ### WindRecharts
+### WindRecharts
 
 File: ```WindRecharts.jsx```
 
 The ```WindRecharts``` component visualizes wind patterns and trends using Recharts, a charting library for React. It provides a graphical representation of wind speed, direction, and other related data over a specific time period.
 
-8. ### CookieConsent
+### CookieConsent
 
 File: ```CookieConsent.jsx```
 
