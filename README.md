@@ -4,22 +4,22 @@ Welcome to the ```Tailwind_FrontEnd``` project documentation! This frontend is d
 
 ## Table of Contents
 
-+ [Link to Header](#Overview)
-+ [Link to Header](#Features)
-+ [Link to Header](#Prerequisites)
-+ [Link to Header](#Installation)
-+ [Link to Header](#Available-Components)
-+ [Link to Header](#SunStatus)
-+ [Link to Header](#CurrentWeather)
-+ [Link to Header](#AirporttRunways)
-+ [Link to Header](#Metar)
-+ [Link to Header](#WeatherForecast)
-+ [Link to Header](#UnitToggle)
-+ [Link to Header](#WindRecharts)
-+ [Link to Header](#CookieConsent)
-+ [Link to Header](#Usage)
-+ [Link to Header](#Contributing)
-+ [Link to Header](#License)
++ [Overview](#Overview)
++ [Features](#Features)
++ [Prerequisites](#Prerequisites)
++ [Installation](#Installation)
++ [Available Components](#Available-Components)
++ [SunStatus](#SunStatus)
++ [CurrerntWeather](#CurrentWeather)
++ [AirportRunways](#AirportRunways)
++ [Metar](#Metar)
++ [WeatherForecast](#WeatherForecast)
++ [UnitToggle](#UnitToggle)
++ [WindRecharts](#WindRecharts)
++ [CookieConsent](#CookieConsent)
++ [Usage](#Usage)
++ [Contributing](#Contributing)
++ [License](#License)
 
 ## Overview
 
