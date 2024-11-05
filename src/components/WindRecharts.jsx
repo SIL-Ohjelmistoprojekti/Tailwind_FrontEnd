@@ -46,12 +46,13 @@ const WindRecharts = () => {
     }
 
     // Conversion functions
+    const kphToMs = (speed) => (speed * 0.27778).toFixed(2);
     const kphToKnots = (speed) => (speed / 1.852).toFixed(2);
 
     // Data for the line chart
     const lineChartData = windData.map((speed, index) => ({
         time: `${index}:00`,
-        speed: unit === 'metric' ? speed : kphToKnots(speed),
+        speed: unit === 'metric' ? kphToMs(speed) : kphToKnots(speed),
     }));
 
     // Custom tooltip for the line chart
@@ -61,7 +62,7 @@ const WindRecharts = () => {
                 <div className="custom-tooltip"
                      style={{backgroundColor: 'white', border: '1px solid grey', padding: '10px', borderRadius: '5px'}}>
                     <p className="label">{`Time: ${label}`}</p>
-                    <p className="intro">{`Wind Speed: ${payload[0].value} ${unit === 'metric' ? 'kph' : 'kn'}`}</p>
+                    <p className="intro">{`Wind Speed: ${payload[0].value} ${unit === 'metric' ? 'm/s' : 'kn'}`}</p>
                 </div>
             );
         }
