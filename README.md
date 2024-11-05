@@ -40,7 +40,7 @@ It integrates with back-end weather data services to support airport and flight 
 Before you begin, ensure you have met the following requirements:
 
 + Node.js (version 14 or higher)
-+ npm or yarn for package management
++ npm for package management
 + A running back-end server to provide weather data (e.g., the SIL backend project)
 
 ## Installation
