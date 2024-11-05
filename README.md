@@ -177,5 +177,5 @@ Please ensure your code follows standard best practices and maintain the coding 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/license/MIT)LICENSE file for more details.
+This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/license/MIT) file for more details.
 
