@@ -4,21 +4,22 @@ Welcome to the ```Tailwind_FrontEnd``` project documentation! This frontend is d
 
 ## Table of Contents
 
-+ Overview
-+ Features
-+ Prerequisites
-+ Installation
-+ Available Components
-+ Aurinko
-+ Current
-+ Kiilto
-+ Metar
-+ SaaEnnuste
-+ UnitToggle
-+ WindRecharts
-+ Usage
-+ Contributing
-+ License
++ [Link to Header](#Overview)
++ [Link to Header](#Features)
++ [Link to Header](#Prerequisites)
++ [Link to Header](#Installation)
++ [Link to Header](#Available-Components)
++ [Link to Header](#SunStatus)
++ [Link to Header](#CurrentWeather)
++ [Link to Header](#AirporttRunways)
++ [Link to Header](#Metar)
++ [Link to Header](#WeatherForecast)
++ [Link to Header](#UnitToggle)
++ [Link to Header](#WindRecharts)
++ [Link to Header](#CookieConsent)
++ [Link to Header](#Usage)
++ [Link to Header](#Contributing)
++ [Link to Header](#License)
 
 ## Overview
 
@@ -84,23 +85,23 @@ This will launch the application in development mode, accessible at ```http://lo
 
 ## Available Components
 
-1. Aurinko
+1. SunStatus.jsx
 
-File: ```Aurinko.jsx```
+File: ```SunStatus.jsx```
 
-The ```Aurinko``` component is responsible for displaying the current position of the sun, including sunrise and sunset times. It dynamically updates based on real-time data, providing users with a visual representation of the sun's location throughout the day.
+The ```SunStatus``` component is responsible for displaying the current position of the sun, including sunrise and sunset times. It dynamically updates based on real-time data, providing users with a visual representation of the sun's location throughout the day.
 
 2. Current
 
-File: ```Current.jsx``` 
+File: ```CurrentWeather.jsx``` 
 
-The ```Current``` component displays real-time weather data such as temperature, humidity, wind speed, and visibility. It fetches this data from the backend and provides an overview of the current conditions at a specified location (airport or city).
+The ```CurrentWeather``` component displays real-time weather data such as temperature, humidity, wind speed, and visibility. It fetches this data from the backend and provides an overview of the current conditions at a specified location (airport or city).
 
-3. Kiilto
+3. AirportRunways
 
-File: ```Kiilto.jsx```
+File: ```AiportRunways.jsx```
 
-The ```Kiilto``` component visualizes solar irradiance and light intensity data. It provides information on sunlight exposure levels, which can be relevant for certain aviation or maintenance activities that rely on clear skies.
+The ```AirportRunways``` component visualizes runway data for airports, including length, direction, and surface type. This data is essential for pilots, air traffic controllers, and ground staff to assess runway suitability for takeoffs and landings, especially in varying weather conditions.
 
 4. Metar
 
@@ -108,11 +109,11 @@ File: ```Metar.jsx```
 
 The ```Metar``` component is designed to parse and display METAR reports, which are crucial for aviation. These reports include essential weather information like wind speed, direction, temperature, and visibility at specific airports. It formats the METAR data into a human-readable format.
 
-5. SaaEnnuste
+5. WeatherForecast
 
-File: ```SaaEnnuste.jsx```
+File: ```WeatherForecast.jsx```
 
-The ```SaaEnnuste``` component is responsible for showing weather forecasts. It uses data from the backend to display predictions on temperature, precipitation, wind, and other key metrics for both short-term and long-term forecasting.
+The ```WeatherForecast``` component is responsible for showing weather forecasts. It uses data from the backend to display predictions on temperature, precipitation, wind, and other key metrics for both short-term and long-term forecasting.
 
 6. UnitToggle
 
@@ -121,9 +122,17 @@ File: ```UnitToggle.jsx```
 The ```UnitToggle``` component allows users to switch between different units of measurement, such as Celsius/Fahrenheit for temperature and kilometers/miles for visibility. This adds flexibility to the user experience, catering to both metric and imperial system preferences.
 
 7. WindRecharts
+
 File: ```WindRecharts.jsx```
 
 The ```WindRecharts``` component visualizes wind patterns and trends using Recharts, a charting library for React. It provides a graphical representation of wind speed, direction, and other related data over a specific time period.
+
+8. CookieConsent
+
+File: ```CookieConsent.jsx```
+
+The ```CookieConsent``` component handles user consent for cookies in compliance with privacy regulations such as GDPR. It displays a banner or pop-up that informs users about the use of cookies on the site, allowing them to accept or customize their preferences for data collection. This component ensures that users' consent choices are respected across the site.
+
 
 ## Usage
 
@@ -134,13 +143,13 @@ Example usage in a React component:
 ```
 import React from 'react';
 import { UnitProvider } from './context/UnitContext';
-import Current from './components/Current';
+import CurrentWeather from './components/CurrentWeather';
 
 function App() {
   return (
     <UnitProvider>
       <div className="App">
-        <Current />
+        <CurrentWeather />
       </div>
     </UnitProvider>
   );
@@ -149,6 +158,10 @@ function App() {
 export default App;
 
 ```
+
+In the above example, the ```CurrentWeather``` component displays real-time weather data, including temperature, wind speed, humidity, and other current conditions. The ```UnitProvider``` context allows toggling between metric and imperial units, ensuring the displayed data conforms to the user's preference.
+
+The ```CurrentWeather``` component utilizes the ```SunStatus``` component to show solar information such as sunrise and sunset times, offering comprehensive weather details in a user-friendly format.
 
 ## Contributing
 
@@ -164,5 +177,5 @@ Please ensure your code follows standard best practices and maintain the coding 
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for more details.
+This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/license/MIT)LICENSE file for more details.
 
