@@ -64,26 +64,15 @@ cd Tailwind_frontEnd
 npm install
 
 ``` 
-or, if you're using yarn:
-
-``` 
-yarn install
-``` 
 
 4. Start the development server:
 ``` 
-npm start
+npm run dev
 ``` 
 
-or with yarn:
+This will launch the application in development mode, accessible at ```http://127.0.0.1:5173/```.
 
-``` 
-yarn start
-```
-
-This will launch the application in development mode, accessible at ```http://localhost:3000```.
-
-## Available Components
+## Available Component
 
 ### SunStatus
 
