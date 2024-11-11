@@ -57,7 +57,7 @@ const CurrentWeather = () => {
     };
 
     return (
-        <div id="current" className="container mx-auto p-3 bg-gray-100 rounded-lg shadow-lg max-w-sm text-left">
+               <div id="current" className="container mx-auto p-3 bg-gray-100 rounded-lg shadow-lg max-w-sm text-left">
             <h2 className="text-2xl font-bold mb-1 whitespace-nowrap text-center">Weather Now</h2>
             <p className="text-lg mb-1 text-left">{formatTime(measuredTime)}</p>
             <div className="flex flex-col gap-4 text-left">

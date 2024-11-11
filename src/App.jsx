@@ -13,6 +13,7 @@ import WindRecharts from './components/WindRecharts.jsx';
 import UnitToggle from './components/UnitToggle.jsx';
 import {UnitProvider} from './context/UnitContext.jsx';
 import CookieConsent from './components/CookieConsent.jsx';
+import Windbag from './components/Windbag.jsx';
 
 const App = () => {
     return (
@@ -36,8 +37,14 @@ const App = () => {
                                             <CurrentWeather/>
                                         </div>
                                     </div>
-                                    <div id="runways" className="mb-2 md:mb-0 md:ml-10 w-full md:w-1/6">
-                                        <AirportRunways/>
+                                    <div className="w-full md:w-1/6 mb-4 md:mb-0 md:ml-8">
+                                        <div id="runways" className="mb-4">
+                                            <AirportRunways/>
+                                        </div>
+                                        {/* Apply left shift to Windbag */}
+                                        <div id="windbag" className="mt-4 transform lg:-translate-x-20">
+                                            <Windbag/>
+                                        </div>
                                     </div>
 
                                     <div id="metar" className="mb-2 md:mb-0 md:ml-10 w-full md:w-1/6">
@@ -48,6 +55,7 @@ const App = () => {
                                         <WindRecharts/>
                                         <WeatherForecast/>
                                     </div>
+                                   
                                 </div>
                             }
                         />
