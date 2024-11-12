@@ -54,7 +54,7 @@ const CurrentWeather = () => {
     
     const getCustomIcon = (iconCode) => {
         const iconMap = {
-            "01d": "/images/weather-icons/clear.png",
+            "01d": "/images/weather-icons/sun.png",
             "01n": "/images/weather-icons/moon.png",
             "02d": "/images/weather-icons/cloudy-sun.png",
             "02n": "/images/weather-icons/cloudy-night.png",
@@ -87,15 +87,15 @@ const CurrentWeather = () => {
 
             {weatherIconCode && (
                 <div
-                    className="flex items-center justify-center mb-4"
+                    className="flex items-center justify-center mb-1"
                     style={{ height: "120px" }}
                 >
                     <img
                         src={weatherIconUrl}
                         alt={weatherDescription}
                         style={{
-                            width: "120px",
-                            height: "120px",
+                            width: "100px",
+                            height: "100px",
                         }}
                     />
                 </div>
