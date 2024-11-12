@@ -150,12 +150,12 @@ const WeatherForecast = () => {
     };
 
     const infoTexts = {
-        weekday: "Viikonpäivä",
-        date: "Tämä päivämäärä tarkoittaa ennustettavaa säätä. Saatavilla oleva tieto voi muuttua.",
-        maxTemp: "Ennustamalla arviout maksimi lämpötila",
-        minTemp: "Minimi lämpötila",
-        precipitation: "Sateen määrä millimetreinä",
-        frostProbability: "Mahdollisuus pakkaselle prosentteina",
+        weekday: "Date",
+        date: "This date means predictable weather. The information available is subject to change.",
+        maxTemp: "Predicting the estimated maximum temperature",
+        minTemp: "Minimum temperature",
+        precipitation: "Amount of rain in millimetres",
+        frostProbability: "Chance of frost as a percentage",
         windSpeed: " Max Wind speed ",
         windDirection: "Wind direction"
     };
