@@ -187,7 +187,7 @@ const Metar = () => {
                     <strong>Dew Point: <br/></strong> {unit === 'metric' ? `${data.dew_point.celsius}°C` : `${celsiusToFahrenheit(data.dew_point.celsius)}°F`}
                 </p>
                 <p><strong>Humidity: <br/></strong> {data.humidity.percent}%</p>
-                <p><strong>Wind Speed: <br/></strong> {unit === 'metric' ? `${data.wind.speed_ms} m/s` : `${data.wind.speed_kt} kn`}</p>
+                <p><strong>Wind Speed: <br/></strong> {unit === 'metric' ? `${data.wind.speed_ms} m/s` : `${data.wind.speed_kt} kt`}</p>
                 <p><strong>Wind Direction: <br/></strong> {data.wind.direction}°</p>
                 <p><strong>Visibility: <br/></strong> {data.visibility.text}</p>
                 <p><strong>Clouds:<br/></strong> {data.cloud_cover.length > 0 ? data.cloud_cover.join(', ') : 'N/A'}</p>

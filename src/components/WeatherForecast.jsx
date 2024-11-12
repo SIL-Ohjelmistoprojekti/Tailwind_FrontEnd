@@ -377,7 +377,7 @@ const WeatherForecast = () => {
                                                 <span
                                                     className="font-bold text-xs text-center p-0 bg-gray-200 rounded">{item.precipitation} mm</span>
                                                 <span className="font-bold text-xs text-center p-0 bg-gray-200 rounded">
-    {convertWindSpeed(windData[index]?.windSpeed, unit) || 'Ei dataa'} {unit === 'metric' ? 'm/s' : 'kn'}
+    {convertWindSpeed(windData[index]?.windSpeed, unit) || 'Ei dataa'} {unit === 'metric' ? 'm/s' : 'kt'}
 </span>
 
                                                 <span className="font-bold text-xs text-center p-0 bg-gray-200 rounded">

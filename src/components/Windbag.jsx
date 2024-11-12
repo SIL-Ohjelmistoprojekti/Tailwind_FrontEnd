@@ -30,10 +30,9 @@ const Windbag = () => {
     if (error) return <p>{error}</p>;
     if (windSpeed === null || windDirection === null) return <p>Loading wind data...</p>;
 
-    // Convert wind speed based on the unit (metric or knots)
-    const speedInCurrentUnit =
-        unit === 'metric' ? (windSpeed / 3.6).toFixed(2) : (windSpeed / 1.852).toFixed(2);
-    const unitLabel = unit === 'metric' ? 'm/s' : 'kn';
+    // Convert wind speed to knots
+    const speedInKnots = (windSpeed / 1.852).toFixed(2);
+    const unitLabel = 'kt';
 
     // Adjust wind bag length based on wind speed
     const windBagLength = Math.min(50 + windSpeed * 2, 120); // Adjust length for clarity
@@ -41,7 +40,7 @@ const Windbag = () => {
     // Define segments of the wind bag
     const segments = 5;
     const segmentLength = windBagLength / segments;
-    const angleRad = ((windDirection - 90) * Math.PI) / 180; // Adjusted angle
+    const angleRad = ((windDirection + 90) * Math.PI) / 180;
 
     // Center point
     const cx = 160; // Adjusted to move windsock slightly to the right
@@ -180,7 +179,7 @@ const Windbag = () => {
                         fontSize="12"
                         fill="#333"
                     >
-                        {speedInCurrentUnit} {unitLabel}
+                        {speedInKnots} {unitLabel}
                     </text>
                 </svg>
             </div>

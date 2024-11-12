@@ -119,11 +119,11 @@ const CurrentWeather = () => {
                     <h3 className="text-xl font-semibold mb-1">Wind</h3>
                     <p id="average_wind_speed" className="p-1 bg-blue-100 rounded-lg mb-1">
                         <strong>Average Wind Speed:</strong> <br />
-                        {unit === 'metric' ? `${currentWeather.wind.speed.toFixed(1)} m/s` : `${windspeedToKnots(currentWeather.wind.speed)} kn`}
+                        {unit === 'metric' ? `${currentWeather.wind.speed.toFixed(1)} m/s` : `${windspeedToKnots(currentWeather.wind.speed)} kt`}
                     </p>
                     <p id="max_wind_speed" className="p-1 bg-blue-100 rounded-lg mb-1">
                         <strong>Wind Gust:</strong> <br />
-                        {unit === 'metric' ? `${currentWeather.wind.gust.toFixed(1)} m/s` : `${windspeedToKnots(currentWeather.wind.gust)} kn`}
+                        {unit === 'metric' ? `${currentWeather.wind.gust.toFixed(1)} m/s` : `${windspeedToKnots(currentWeather.wind.gust)} kt`}
                     </p>
                     <p id="wind_direction" className="p-1 bg-blue-100 rounded-lg">
                         <strong>Wind Direction:</strong> <br /> {currentWeather.wind.deg} °
