@@ -168,3 +168,4 @@ Please ensure your code follows standard best practices and maintain the coding 
 
 This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/license/MIT) file for more details.
 
+<img width="947" alt="kuvasivusta" src="https://github.com/user-attachments/assets/12b82efc-6c0d-4cc0-a588-49fb7ff06b99">
