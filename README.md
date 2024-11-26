@@ -152,6 +152,10 @@ In the above example, the ```CurrentWeather``` component displays real-time weat
 
 The ```CurrentWeather``` component utilizes the ```SunStatus``` component to show solar information such as sunrise and sunset times, offering comprehensive weather details in a user-friendly format.
 
+## Picture
+<img width="944" alt="kuvaSil" src="https://github.com/user-attachments/assets/dd211233-21f4-40ab-be8b-5af61bdd28eb">
+
+
 ## Contributing
 
 Contributions are welcome! To contribute to Tailwind_frontEnd:
@@ -168,4 +172,4 @@ Please ensure your code follows standard best practices and maintain the coding 
 
 This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/license/MIT) file for more details.
 
-<img width="947" alt="kuvasivusta" src="https://github.com/user-attachments/assets/12b82efc-6c0d-4cc0-a588-49fb7ff06b99">
+
